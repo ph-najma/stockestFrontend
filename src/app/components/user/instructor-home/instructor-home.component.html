@@ -1,0 +1,37 @@
+<div class="max-w-7xl mx-auto p-6 bg-gray-50">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Trading Courses</h1>
+    <div class="flex gap-4 mt-2 text-gray-600">
+      <span class="flex items-center gap-2">
+        <span class="font-medium">{{ courses.length }}</span> courses
+      </span>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">ASSIGNED CLASSES</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let course of courses"
+      class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+    >
+      <div class="relative">
+        <img
+          [src]="'assets/course.jpg'"
+          [alt]="course.specialization"
+          class="w-full h-48 object-cover"
+        />
+      </div>
+
+      <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">
+          {{ course.specialization.toUpperCase() }}
+        </h3>
+
+        <button class="btn btn-primary m-3" (click)="makeCall()">
+          Start call
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

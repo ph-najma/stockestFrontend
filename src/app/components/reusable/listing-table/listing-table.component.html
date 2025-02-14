@@ -1,0 +1,110 @@
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse table-auto">
+    <thead class="bg-blue-100">
+      <tr>
+        <ng-container *ngFor="let column of columns">
+          <th
+            class="p-3 text-left text-black border border-gray-300 whitespace-nowrap"
+            [style.width]="column.width || 'auto'"
+          >
+            <div class="flex items-center">
+              {{ column.header }}
+              <button
+                *ngIf="column.sortable"
+                class="ml-2 hover:bg-blue-200 rounded-full p-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-4 w-4 text-gray-600"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 15l6-6 6 6"
+                  />
+                </svg>
+              </button>
+            </div>
+          </th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let row of data"
+        class="border-b border-green-100 hover:bg-green-50/30 transition-colors"
+      >
+        <td
+          *ngFor="let column of columns"
+          [attr.data-label]="column.header"
+          class="p-3 font-medium text-gray-800 border border-gray-300"
+        >
+          <ng-container *ngIf="column.buttons?.length">
+            <div class="flex space-x-2">
+              <ng-container *ngFor="let button of column.buttons">
+                <button
+                  [ngClass]="button.cssClass"
+                  (click)="button.action(row)"
+                >
+                  {{ button.label }}
+                </button>
+              </ng-container>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="customTemplates[column.key]; else defaultContent"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                customTemplates[column.key];
+                context: { $implicit: row }
+              "
+            ></ng-container>
+          </ng-container>
+          <ng-template #defaultContent>
+            <ng-container *ngIf="!column.custom">{{
+              row[column.key]
+            }}</ng-container>
+            <ng-container *ngIf="column.custom">
+              <span [ngClass]="column.custom(row)?.class">{{
+                column.custom(row)?.text
+              }}</span>
+            </ng-container>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-between items-center py-4 px-2 border-t bg-white">
+    <!-- Page Info -->
+    <div class="text-sm text-gray-600">
+      Page {{ currentPage }} of {{ totalPages }}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex space-x-2">
+      <button
+        class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300"
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+
+      <span class="font-medium text-gray-700">{{ currentPage }}</span>
+
+      <button
+        class="px-3 py-1 rounded-lg bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300"
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>

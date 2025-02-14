@@ -1,0 +1,84 @@
+<div class="max-w-7xl mx-auto p-6 bg-gray-50">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Trading Courses</h1>
+    <div class="flex gap-4 mt-2 text-gray-600">
+      <span class="flex items-center gap-2">
+        <span class="font-medium">{{ courses.length }}</span> courses
+      </span>
+    </div>
+  </div>
+  <app-alert-modal></app-alert-modal>
+
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    Best Trading Courses for Beginners
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let course of courses"
+      class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+    >
+      <div class="relative">
+        <img
+          [src]="course.image"
+          [alt]="course.title"
+          class="w-full h-48 object-cover"
+        />
+      </div>
+
+      <div class="p-4">
+        <h3 class="font-bold text-lg mb-2">{{ course.title }}</h3>
+        <div class="text-sm text-gray-600 mb-2">
+          • by {{ course.instructor }}
+        </div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <div class="flex items-center">
+            <svg
+              class="w-4 h-4 fill-current text-yellow-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M9.049 2.927a1 1 0 0 1 1.902 0l1.43 3.794a1 1 0 0 0 .95.69h3.986a1 1 0 0 1 .586 1.788l-3.219 2.347a1 1 0 0 0-.363 1.118l1.432 3.794a1 1 0 0 1-1.527 1.118l-3.219-2.347a1 1 0 0 0-1.18 0l-3.219 2.347a1 1 0 0 1-1.528-1.118l1.432-3.794a1 1 0 0 0-.363-1.118L3.072 9.2a1 1 0 0 1 .586-1.788h3.986a1 1 0 0 0 .95-.69l1.43-3.794z"
+              />
+            </svg>
+            <span class="ml-1 font-bold">{{ course.rating }}</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-bold">₹{{ course.discountedPrice }}</span>
+          <span class="text-gray-500 line-through"
+            >₹{{ course.originalPrice }}</span
+          >
+          <span class="text-red-500 font-medium"
+            >SAVE {{ course.discount }}%</span
+          >
+        </div>
+
+        <div *ngIf="!isPurchased(course.id); else callTemplate">
+          <!-- Buy Now Button -->
+          <button
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-2 mt-4"
+            (click)="buyCourse(course)"
+          >
+            Buy Now
+          </button>
+        </div>
+        <ng-template #callTemplate>
+          <div class="flex flex-col mt-4">
+            <button
+              class="w-full bg-green-600 hover:bg-green-700 text-white rounded py-2"
+              (click)="makeCall()"
+            >
+              Start Call
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<!-- navigation.component.html -->
+<div class="bg-gray-50">
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <!-- Logo -->
+          <div class="flex-shrink-0 flex items-center">
+            <span class="text-2xl font-bold text-blue-600">TradeLearn</span>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:ml-6 md:flex md:space-x-8">
+            <a
+              [routerLink]="['/dashboard']"
+              class="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 h-16"
+            >
+              <fa-icon [icon]="faUsers" class="w-4 h-4 mr-2"></fa-icon>
+              dashboard
+            </a>
+            <a
+              [routerLink]="['/instructorhome']"
+              class="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 h-16"
+            >
+              <fa-icon [icon]="faUsers" class="w-4 h-4 mr-2"></fa-icon>
+              sessions
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button
+            (click)="toggleMobileMenu()"
+            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+          >
+            <fa-icon
+              [icon]="isMobileMenuOpen ? faXmark : faBars"
+              class="h-6 w-6"
+            ></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div *ngIf="isMobileMenuOpen" class="md:hidden">
+      <div class="pt-2 pb-3 space-y-1">
+        <a
+          *ngFor="let item of navItems"
+          href="#"
+          [ngClass]="{
+            'bg-blue-50 border-blue-500 text-blue-700': item.active,
+            'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700':
+              !item.active
+          }"
+          class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+        >
+          <div class="flex items-center">
+            <fa-icon [icon]="faUsers" class="w-4 h-4 mr-2"></fa-icon>
+            {{ item.label }}
+          </div>
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>

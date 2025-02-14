@@ -1,0 +1,39 @@
+<div class="w-64 bg-gray-800 p-4 h-screen rounded-lg">
+  <div class="relative">
+    <div class="relative flex items-center">
+      <i class="fas fa-search absolute left-3"></i>
+
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        placeholder="Search stocks..."
+        class="w-full bg-gray-900 text-white pl-10 pr-8 py-2 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+      />
+
+      <button
+        *ngIf="searchQuery"
+        (click)="handleClear()"
+        class="absolute right-2 text-gray-400 hover:text-gray-200"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Sample search results area -->
+  <div class="mt-4 space-y-2">
+    <div *ngIf="loading" class="text-sm text-gray-400">Loading...</div>
+    <div
+      *ngIf="!loading && suggestions.length === 0 && searchQuery"
+      class="text-sm text-gray-400"
+    >
+      No results found.
+    </div>
+    <div
+      *ngFor="let suggestion of suggestions"
+      class="text-sm text-white hover:bg-gray-700 p-2 rounded-lg cursor-pointer"
+      (click)="selectSuggestion(suggestion)"
+    >
+      {{ suggestion.name }} {{ suggestion.symbol }}
+    </div>
+  </div>
+</div>

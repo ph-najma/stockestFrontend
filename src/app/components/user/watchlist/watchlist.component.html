@@ -1,0 +1,63 @@
+<app-user-header></app-user-header>
+
+<div class="bg-black min-h-screen text-white p-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Watchlist</h2>
+      <button
+        routerLink="/stocks"
+        class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700"
+      >
+        + Add More
+      </button>
+    </div>
+
+    <div class="space-y-2">
+      <div
+        *ngFor="let stock of stocks"
+        class="bg-gray-900 rounded-lg p-4 hover:bg-gray-800"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <fa-icon [icon]="'star'" class="w-5 h-5 text-yellow-500"></fa-icon>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold">{{ stock.symbol }}</span>
+                <span class="text-gray-400 text-sm">{{ stock.symbol }}</span>
+              </div>
+              <span class="text-sm text-gray-400">Vol: {{ stock.volume }}</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6">
+            <div class="text-right">
+              <div class="font-bold">${{ stock.price }}</div>
+              <div
+                class="text-sm"
+                [ngClass]="{
+                  'text-green-500': stock.change > 0,
+                  'text-red-500': stock.change <= 0
+                }"
+              >
+                <ng-container *ngIf="stock.change > 0; else trendingDown">
+                  <fa-icon [icon]="'arrow-up'" class="w-4 h-4 inline"></fa-icon>
+                </ng-container>
+                <ng-template #trendingDown>
+                  <fa-icon
+                    [icon]="'arrow-down'"
+                    class="w-4 h-4 inline"
+                  ></fa-icon>
+                </ng-template>
+                {{ stock.change }}%
+              </div>
+            </div>
+            <fa-icon
+              [icon]="'ellipsis-vertical'"
+              class="w-5 h-5 text-gray-400 cursor-pointer"
+            ></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

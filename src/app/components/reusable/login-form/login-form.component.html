@@ -1,0 +1,82 @@
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="space-y-4">
+  <!-- Email Field -->
+  <div>
+    <label for="email" class="block text-gray-700 font-medium">Email</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-300 focus:outline-none"
+      placeholder="Enter your email"
+    />
+    <div
+      *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+      class="text-red-500 text-sm"
+    >
+      Please enter a valid email address.
+    </div>
+  </div>
+
+  <!-- Password Field -->
+  <div>
+    <label for="password" class="block text-gray-700 font-medium"
+      >Password</label
+    >
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-300 focus:outline-none"
+      placeholder="Enter your password"
+    />
+    <div
+      *ngIf="
+        loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+      "
+      class="text-red-500 text-sm"
+    >
+      Password must be at least 6 characters long.
+    </div>
+  </div>
+
+  <!-- Error and Success Messages -->
+  <div *ngIf="error" class="text-red-500 text-sm mb-4">{{ error }}</div>
+  <div *ngIf="successMessage" class="text-green-500 text-sm mb-4">
+    {{ successMessage }}
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    [disabled]="loading || loginForm.invalid"
+    class="w-full py-3 font-semibold text-white bg-green-600 rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-300 transition"
+  >
+    {{ loading ? "Loading..." : "Login" }}
+  </button>
+</form>
+
+<div *ngIf="isUserLogin" class="mt-4 text-center">
+  <app-google-signin
+    (onGoogleLogin)="handleGoogleLogin($event)"
+  ></app-google-signin>
+  <p class="mt-4 text-center text-gray-600">
+    Longin as Instructor?
+    <a
+      [routerLink]="['/instructorLogin']"
+      class="text-indigo-600 hover:underline"
+      >Instructor Login</a
+    >
+  </p>
+</div>
+
+<p class="mt-4 text-center text-gray-600">
+  Don't have an account?
+  <a [routerLink]="['/signup']" class="text-indigo-600 hover:underline"
+    >Sign up</a
+  >
+</p>
+<p class="mt-2 text-center text-gray-600">
+  <a [routerLink]="['/forgotPassword']" class="text-indigo-600 hover:underline">
+    Forgot Password?
+  </a>
+</p>

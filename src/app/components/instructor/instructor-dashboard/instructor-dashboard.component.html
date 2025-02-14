@@ -1,0 +1,114 @@
+<app-instructor-header></app-instructor-header>
+<div class="p-6 bg-gray-50">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Teaching Dashboard</h1>
+    <p class="text-gray-600">Welcome back, {{ sessions[0].instructor_name }}</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="flex items-center">
+        <fa-icon [icon]="faUsers" class="h-8 w-8 text-blue-500 mr-4"></fa-icon>
+        <div>
+          <p class="text-gray-600">Total Sessions</p>
+          <p class="text-2xl font-bold">{{ totalSessions }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="flex items-center">
+        <fa-icon
+          [icon]="faCheckCircle"
+          class="h-8 w-8 text-green-500 mr-4"
+        ></fa-icon>
+        <div>
+          <p class="text-gray-600">Completed</p>
+          <p class="text-2xl font-bold">{{ completedSessions }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="flex items-center">
+        <fa-icon
+          [icon]="faDollarSign"
+          class="h-8 w-8 text-purple-500 mr-4"
+        ></fa-icon>
+        <div>
+          <p class="text-gray-600">Average Rate</p>
+          <p class="text-2xl font-bold">${{ averageRate }}/hr</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="flex items-center">
+        <fa-icon
+          [icon]="faCalendar"
+          class="h-8 w-8 text-orange-500 mr-4"
+        ></fa-icon>
+        <div>
+          <p class="text-gray-600">Upcoming</p>
+          <p class="text-2xl font-bold">{{ upcomingSessions.length }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Upcoming Sessions -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="text-lg font-semibold flex items-center mb-4">
+        <fa-icon [icon]="faCalendar" class="h-5 w-5 mr-2"></fa-icon>
+        Upcoming Sessions
+      </div>
+      <div
+        *ngFor="let session of upcomingSessions"
+        class="p-3 bg-gray-50 rounded-lg mb-4"
+      >
+        <div class="flex justify-between">
+          <div>
+            <p class="font-medium">Student ID: {{ session.student_id }}</p>
+            <p class="text-sm text-gray-600">
+              {{ formatDate(session.start_time) }} -
+              {{ formatDate(session.end_time) }}
+            </p>
+            <p class="text-sm text-gray-600">{{ session.specialization }}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-medium">${{ session.hourly_rate }}/hr</p>
+            <div class="flex items-center mt-1">
+              <fa-icon
+                *ngIf="session.connection_status === 'CONNECTED'"
+                [icon]="faWifi"
+                class="h-4 w-4 text-green-500"
+              ></fa-icon>
+              <!-- <fa-icon
+                *ngIf="session.connection_status !== 'CONNECTED'"
+                [icon]="faWifiOff"
+                class="h-4 w-4 text-gray-400"
+              ></fa-icon> -->
+              <span class="text-sm ml-1">{{ session.connection_status }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings Chart -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="text-lg font-semibold flex items-center mb-4">
+        <fa-icon [icon]="faDollarSign" class="h-5 w-5 mr-2"></fa-icon>
+        Earnings Overview
+      </div>
+      <div class="h-[300px]">
+        <!-- Use a chart component here (like ng2-charts or any other chart library) -->
+        <!-- For example, you can use ng2-charts to create a line chart here -->
+      </div>
+    </div>
+  </div>
+</div>

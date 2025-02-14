@@ -1,0 +1,77 @@
+<app-header></app-header>
+
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content for Manage Market Orders -->
+  <main class="flex-1 p-6 bg-gray-50">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">Manage Market Orders</h1>
+
+    <!-- Filters Section -->
+    <app-filter
+      [filter]="filters"
+      (filterChanged)="applyFilters()"
+    ></app-filter>
+    <app-confirmation
+      [visible]="showModal"
+      title="Cancel Order"
+      message="Are you sure you want to cancel this order?"
+      (confirm)="handleConfirm()"
+      (cancel)="handleCancel()"
+    ></app-confirmation>
+
+    <!-- Orders Table -->
+    <div class="overflow-x-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Market Orders</h2>
+      <table class="w-full text-left table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">
+              Order ID
+            </th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">User</th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">Stock</th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">
+              Quantity
+            </th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">
+              Executed Price
+            </th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">Status</th>
+            <th class="px-4 py-2 text-sm font-medium text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example order row -->
+          <tr *ngFor="let order of marketOrders; let index = index">
+            <td class="px-4 py-2 text-sm text-gray-800">{{ order.orderId }}</td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+              {{ order.user?.name }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+              {{ order.stock.symbol }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+              {{ order.quantity || 0 }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+              {{ order.stock.price | currency }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-800">{{ order.status }}</td>
+            <td class="px-4 py-2 text-sm text-gray-800">
+              <button
+                (click)="confirmCancel(order._id)"
+                *ngIf="order.status === 'PENDING'"
+                class="ml-4 text-red-600 hover:text-red-800"
+              >
+                Cancel
+              </button>
+            </td>
+          </tr>
+          <!-- Repeat rows as necessary -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

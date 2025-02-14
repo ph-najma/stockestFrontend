@@ -1,0 +1,13 @@
+<app-header></app-header>
+<div class="flex flex-1 mt-6">
+  <app-sidebar></app-sidebar>
+  <div class="flex-1 p-6 overflow-y-auto">
+    <div class="bg-blue-50 shadow-md rounded-lg overflow-hidden">
+      <app-listing-table
+        [columns]="columns"
+        [data]="sessions"
+      ></app-listing-table>
+      
+    </div>
+  </div>
+</div>

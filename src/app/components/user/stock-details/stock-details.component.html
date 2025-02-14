@@ -1,0 +1,108 @@
+<app-user-header></app-user-header>
+<div class="min-h-screen bg-black text-white p-6">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">{{ stocks[0].symbol }}</h1>
+    <div class="flex items-center space-x-4">
+      <span class="text-4xl font-bold">${{ stocks[0].price.toFixed(2) }}</span>
+      <div
+        [ngClass]="isPositiveChange ? 'text-green-500' : 'text-red-500'"
+        class="flex items-center"
+      >
+        <span *ngIf="isPositiveChange" class="mr-2">↑</span>
+        <span *ngIf="!isPositiveChange" class="mr-2">↓</span>
+        <span class="text-xl">{{ stocks[0].changePercent }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Price Overview Card -->
+    <div class="bg-gray-900 border-gray-800 rounded p-4">
+      <h3 class="flex items-center text-lg font-bold mb-4">
+        💵 Price Overview
+      </h3>
+      <div class="space-y-4">
+        <div class="flex justify-between">
+          <span class="text-gray-400">Open</span>
+          <span>${{ stocks[0].open.toFixed(2) }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-400">High</span>
+          <span>${{ stocks[0].high.toFixed(2) }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-400">Low</span>
+          <span>${{ stocks[0].low.toFixed(2) }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-400">Close</span>
+          <span>${{ stocks[0].close.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volume Information Card -->
+    <div class="bg-gray-900 border-gray-800 rounded p-4">
+      <h3 class="flex items-center text-lg font-bold mb-4">
+        📊 Volume Information
+      </h3>
+      <div class="space-y-4">
+        <div class="flex justify-between">
+          <span class="text-gray-400">Volume</span>
+          <span>{{ stocks[0].volume | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trading Information Card -->
+    <div class="bg-gray-900 border-gray-800 rounded p-4">
+      <h3 class="flex items-center text-lg font-bold mb-4">
+        🕒 Trading Information
+      </h3>
+      <div class="space-y-4">
+        <div class="flex justify-between">
+          <span class="text-gray-400">Latest Trading Day</span>
+          <span>{{ stocks[0].latestTradingDay }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-400">Last Updated</span>
+          <span>{{ stocks[0].timestamp | date : "short" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Price History Table -->
+  <div class="mt-6 bg-gray-900 border-gray-800 rounded p-4">
+    <h3 class="flex items-center text-lg font-bold mb-4">📈 Price History</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-800">
+            <th class="py-3 px-4 text-left text-gray-400">Date</th>
+            <th class="py-3 px-4 text-right text-gray-400">Open</th>
+            <th class="py-3 px-4 text-right text-gray-400">High</th>
+            <th class="py-3 px-4 text-right text-gray-400">Low</th>
+            <th class="py-3 px-4 text-right text-gray-400">Close</th>
+            <th class="py-3 px-4 text-right text-gray-400">Volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let day of stocks"
+            class="border-b border-gray-800 hover:bg-gray-800"
+          >
+            <td class="py-3 px-4">{{ day.timestamp }}</td>
+            <td class="py-3 px-4 text-right">${{ day.open.toFixed(2) }}</td>
+            <td class="py-3 px-4 text-right">${{ day.high.toFixed(2) }}</td>
+            <td class="py-3 px-4 text-right">${{ day.low.toFixed(2) }}</td>
+            <td class="py-3 px-4 text-right">${{ day.close.toFixed(2) }}</td>
+            <td class="py-3 px-4 text-right">{{ day.volume | number }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+  <h2 class="text-lg font-semibold text-gray-800">Filter Orders</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div>
+      <label for="status" class="block text-sm text-gray-700">Status</label>
+      <select
+        id="status"
+        class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+        [(ngModel)]="filter.status"
+      >
+        <option value="all">All</option>
+        <option value="PENDING">Pending</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="FAILED">Failed</option>
+      </select>
+    </div>
+    <div>
+      <label for="user" class="block text-sm text-gray-700">User</label>
+      <input
+        id="user"
+        type="text"
+        class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+        placeholder="Search by user"
+        [(ngModel)]="filter.user"
+      />
+    </div>
+    <div>
+      <label for="date-range" class="block text-sm text-gray-700"
+        >Date Range</label
+      >
+      <input
+        id="date-range"
+        type="date"
+        class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+        [(ngModel)]="filter.dateRange"
+      />
+    </div>
+  </div>
+  <button
+    (click)="applyFilters()"
+    class="mt-4 bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 focus:outline-none"
+  >
+    Apply Filters
+  </button>
+</div>

@@ -1,0 +1,15 @@
+<app-header></app-header>
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main Content Area -->
+  <div class="flex-1 p-6 overflow-y-auto">
+    <!-- Table Container -->
+    <div class="bg-blue-50 shadow-md rounded-lg overflow-hidden">
+      <app-listing-table
+        [columns]="tableColumns"
+        [data]="stocks"
+      ></app-listing-table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<app-header></app-header>
+
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main Content for View Order Execution Details -->
+  <main class="flex-1 p-6 bg-gray-50">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">
+      Order Execution Details
+    </h1>
+
+    <!-- Order Information Section -->
+    <div class="bg-indigo-50 p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold text-gray-800">Order Information</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div>
+          <label for="order-id" class="block text-sm text-gray-700"
+            >Order ID</label
+          >
+          <input
+            id="order-id"
+            type="text"
+            value="{{ orderDetails?.orderId }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="stock-symbol" class="block text-sm text-gray-700"
+            >Stock Symbol</label
+          >
+          <input
+            id="stock-symbol"
+            type="text"
+            value="{{ orderDetails?.stock?.symbol ?? '' }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="order-type" class="block text-sm text-gray-700"
+            >Order Type</label
+          >
+          <input
+            id="order-type"
+            type="text"
+            value="{{ orderDetails?.orderType }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+        <div>
+          <label for="quantity" class="block text-sm text-gray-700"
+            >Quantity</label
+          >
+          <input
+            id="quantity"
+            type="text"
+            value="{{ orderDetails?.quantity }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="status" class="block text-sm text-gray-700">Status</label>
+          <input
+            id="status"
+            type="text"
+            value="{{ orderDetails?.status }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Execution Details Section -->
+    <div class="bg-indigo-50 p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold text-gray-800">Execution Details</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div>
+          <label for="execution-price" class="block text-sm text-gray-700"
+            >Matched Price</label
+          >
+          <input
+            id="execution-price"
+            type="text"
+            value="{{ orderDetails?.price }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="execution-quantity" class="block text-sm text-gray-700"
+            >Matched Quantity</label
+          >
+          <input
+            id="execution-quantity"
+            type="text"
+            value="{{ orderDetails?.quantity }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="execution-time" class="block text-sm text-gray-700"
+            >Execution Time</label
+          >
+          <input
+            id="execution-time"
+            type="text"
+            value="{{ orderDetails?.createdAt }}"
+            class="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

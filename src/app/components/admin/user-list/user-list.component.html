@@ -1,0 +1,59 @@
+<app-header></app-header>
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- User List & Details -->
+  <main class="flex-1 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-2xl font-semibold text-gray-400 mb-6">Users and Details</h1>
+    <app-alert-modal></app-alert-modal>
+    <!-- Reusable Table -->
+    <app-listing-table
+      [columns]="columns"
+      [data]="users"
+      [customTemplates]="{ actions: actionsTemplate }"
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)"
+    ></app-listing-table>
+
+    <!-- Custom Template for Actions -->
+    <ng-template #actionsTemplate let-row>
+      <button
+        (click)="disableUser(row._id, row.is_Blocked)"
+        class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800 mr-4"
+      >
+        {{ row.is_Blocked ? "Enable" : "Disable" }}
+      </button>
+      <button
+        (click)="viewPortfolio(row._id)"
+        class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800"
+      >
+        View Portfolio
+      </button>
+    </ng-template>
+
+    <!-- Pagination -->
+    <!-- <div class="flex justify-between items-center mt-4">
+      <button
+        class="px-4 py-2 bg-blue-800 text-white rounded hover:bg-gray-700"
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      <span class="text-gray-300"
+        >Page {{ currentPage }} of {{ totalPages }}</span
+      >
+
+      <button
+        class="px-4 py-2 bg-blue-800 text-white rounded hover:bg-gray-700"
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div> -->
+  </main>
+</div>

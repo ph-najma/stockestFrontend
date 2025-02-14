@@ -1,0 +1,61 @@
+<h1 class="text-center text-4xl font-bold my-8">📹 Video Call</h1>
+
+<div class="flex justify-evenly items-center my-6 gap-8">
+  <!-- Local Video -->
+  <div class="relative w-[45%]">
+    <p
+      class="absolute top-2 left-2 text-xs bg-black text-white px-3 py-1 rounded"
+    >
+      Local Video
+    </p>
+    <video
+      id="localVideo"
+      autoplay
+      playsinline
+      class="w-full h-[350px] bg-black rounded-xl shadow-lg border-2 border-gray-400"
+    ></video>
+  </div>
+
+  <!-- Remote Video -->
+  <div class="relative w-[45%]">
+    <p
+      class="absolute top-2 left-2 text-xs bg-black text-white px-3 py-1 rounded"
+    >
+      Remote Video
+    </p>
+    <video
+      id="remoteVideo"
+      autoplay
+      playsinline
+      class="w-full h-[350px] bg-black rounded-xl shadow-lg border-2 border-gray-400"
+    ></video>
+  </div>
+</div>
+
+<!-- Call Control Buttons -->
+<div class="flex justify-center gap-4 mt-8">
+  <button
+    (click)="createOffer()"
+    class="btn bg-green-500 text-white px-8 py-3 rounded-xl hover:bg-green-600"
+  >
+    📞 Start Call
+  </button>
+  <button
+    (click)="endCall()"
+    class="btn bg-red-500 text-white px-8 py-3 rounded-xl hover:bg-red-700"
+  >
+    ❌ End Call
+  </button>
+  <button
+    (click)="maximizeVideo('localVideo')"
+    class="btn bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600"
+  >
+    ⬆️ Maximize Local
+  </button>
+  <button
+    (click)="enablePictureInPicture('localVideo')"
+    class="btn bg-gray-700 text-white px-6 py-3 rounded-xl hover:bg-gray-900"
+  >
+    🎥 PiP Mode Local
+  </button>
+</div>

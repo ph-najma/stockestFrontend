@@ -1,0 +1,81 @@
+<nav
+  class="bg-gray-900 text-gray-300 flex items-center justify-between px-8 py-4"
+>
+  <!-- Logo Section -->
+  <div class="flex items-center space-x-4">
+    <img
+      src="../../assets/logo.png"
+      alt="Logo"
+      class="w-10 h-10 rounded-full"
+    />
+    <h1 class="text-lg font-bold text-green-400">Stockest</h1>
+  </div>
+
+  <!-- Centered Navigation Links -->
+  <ul class="flex space-x-6">
+    <li>
+      <a href="#" class="text-green-400 font-semibold">Home</a>
+    </li>
+    <li>
+      <a (click)="market()" class="hover:text-green-400">Markets</a>
+    </li>
+    <li>
+      <a [routerLink]="['/portfolio']" class="hover:text-green-400"
+        >Portfolio</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="['/watchlist']" class="hover:text-green-400"
+        >Watchlist</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="['/addmoney']" class="hover:text-green-400">Add Money</a>
+    </li>
+    <li>
+      <a [routerLink]="['/myOrders']" class="hover:text-green-400">Orders</a>
+    </li>
+    <li>
+      <a [routerLink]="['/transactionhistory']" class="hover:text-green-400"
+        >Money</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="['/tradediary']" class="hover:text-green-400"
+        >Trade Diary</a
+      >
+    </li>
+
+    <li>
+      <a [routerLink]="['/ai']" class="hover:text-green-400">Ask to Ai</a>
+    </li>
+  </ul>
+
+  <!-- Right Profile Section -->
+  <div class="relative" (clickOutside)="closeDropdown()">
+    <div
+      class="flex items-center space-x-2 cursor-pointer"
+      (click)="toggleDropdown()"
+    >
+      <span class="text-sm">Hi <span class="font-semibold">NIZAM</span></span>
+      <img
+        src="https://via.placeholder.com/40"
+        alt="Profile"
+        class="w-8 h-8 rounded-full border-2 border-green-400"
+      />
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div
+      *ngIf="dropdownOpen"
+      class="absolute right-0 mt-2 w-32 bg-gray-900 text-white rounded-md shadow-lg"
+    >
+      <a (click)="profile()" class="block px-4 py-2 hover:text-green-400"
+        >Profile</a
+      >
+      <a (click)="logout()" class="block px-4 py-2 hover:text-green-400"
+        >Logout</a
+      >
+    </div>
+  </div>
+</nav>

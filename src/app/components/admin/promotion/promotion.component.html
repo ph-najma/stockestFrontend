@@ -1,0 +1,189 @@
+<app-header></app-header>
+<div class="flex flex-1 mt-6">
+  <app-sidebar></app-sidebar>
+  <div class="max-w-4xl mx-auto p-6 bg-blue-50">
+    <h1 class="text-2xl font-bold mb-6">Promotional Rewards Management</h1>
+
+    <!-- Tabs for selecting different settings -->
+    <div class="flex space-x-4 mb-6">
+      <button
+        (click)="selectedTab = 'signup'"
+        [ngClass]="{ 'bg-blue-500 text-white': selectedTab === 'signup' }"
+        class="py-2 px-4 rounded-lg border text-gray-700 hover:bg-blue-500 hover:text-white transition duration-200"
+      >
+        Sign-up Bonus
+      </button>
+      <button
+        (click)="selectedTab = 'referral'"
+        [ngClass]="{ 'bg-blue-500 text-white': selectedTab === 'referral' }"
+        class="py-2 px-4 rounded-lg border text-gray-700 hover:bg-blue-500 hover:text-white transition duration-200"
+      >
+        Referral Program
+      </button>
+      <button
+        (click)="selectedTab = 'loyalty'"
+        [ngClass]="{ 'bg-blue-500 text-white': selectedTab === 'loyalty' }"
+        class="py-2 px-4 rounded-lg border text-gray-700 hover:bg-blue-500 hover:text-white transition duration-200"
+      >
+        Loyalty Rewards
+      </button>
+    </div>
+
+    <!-- Sign-up Bonus Settings -->
+    <div *ngIf="selectedTab === 'signup'">
+      <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4">Sign-up Bonus Settings</h3>
+
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-medium">Enable Sign-up Bonus</label>
+            <input
+              type="checkbox"
+              [(ngModel)]="signupBonus.enabled"
+              class="toggle"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Bonus Amount ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="signupBonus.amount"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Minimum Deposit ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="signupBonus.minimumDepositRequired"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Expiry Period (Days)</label>
+              <input
+                type="number"
+                [(ngModel)]="signupBonus.expiryDays"
+                class="input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referral Program Settings -->
+    <div *ngIf="selectedTab === 'referral'">
+      <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4">Referral Program Settings</h3>
+
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-medium">Enable Referral Program</label>
+            <input
+              type="checkbox"
+              [(ngModel)]="referralBonus.enabled"
+              class="toggle"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Referrer Bonus ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="referralBonus.referrerAmount"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Referee Bonus ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="referralBonus.refereeAmount"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Max Referrals per User</label>
+              <input
+                type="number"
+                [(ngModel)]="referralBonus.maxReferralsPerUser"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Minimum Deposit ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="referralBonus.minimumDepositRequired"
+                class="input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loyalty Rewards Settings -->
+    <div *ngIf="selectedTab === 'loyalty'">
+      <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4">Loyalty Rewards Settings</h3>
+
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-medium">Enable Loyalty Rewards</label>
+            <input
+              type="checkbox"
+              [(ngModel)]="loyaltyRewards.enabled"
+              class="toggle"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm">Required Trading Amount ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="loyaltyRewards.tradingAmount"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Reward Amount ($)</label>
+              <input
+                type="number"
+                [(ngModel)]="loyaltyRewards.rewardAmount"
+                class="input"
+              />
+            </div>
+            <div>
+              <label class="text-sm">Timeframe (Days)</label>
+              <input
+                type="number"
+                [(ngModel)]="loyaltyRewards.timeframeInDays"
+                class="input"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-4">
+      <button
+        class="py-2 px-4 border rounded-lg text-gray-700 hover:bg-gray-200 transition duration-200"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="createPromotion()"
+        class="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>

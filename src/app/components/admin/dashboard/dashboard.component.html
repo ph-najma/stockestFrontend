@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main Dashboard Content -->
+  <main class="flex-1 p-6 bg-gray-50">
+    <!-- Dashboard Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      <!-- Total Active Users Card -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-semibold text-gray-800">Total Active Users</h2>
+        <p class="text-4xl font-bold text-gray-900 mt-2">1,234</p>
+        <p class="text-sm text-gray-500">+123 new registrations this week</p>
+      </div>
+
+      <!-- Portfolio Statistics Card -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-semibold text-gray-800">
+          Portfolio Statistics
+        </h2>
+        <p class="text-4xl font-bold text-gray-900 mt-2">$45,678,900</p>
+        <p class="text-sm text-blue-600 underline">
+          Aggregate Profit/Loss: +$2,345,678
+        </p>
+      </div>
+
+      <!-- Session Statistics Card -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-semibold text-gray-800">Session Statistics</h2>
+        <p class="text-4xl font-bold text-gray-900 mt-2">567</p>
+        <p class="text-sm text-gray-500">Completed: 512, Canceled: 55</p>
+      </div>
+    </div>
+
+    <!-- Trading Volume & Transactions -->
+    <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+      <h2 class="text-lg font-semibold text-gray-800">
+        Trading Volume & Transactions
+      </h2>
+      <p class="text-4xl font-bold text-gray-900 mt-2">$123,456,789</p>
+      <div class="h-32 bg-gray-100 rounded-lg mt-4">
+        <!-- Placeholder for chart -->
+        <svg class="w-full h-full text-blue-400">
+          <line
+            x1="10"
+            y1="100"
+            x2="40"
+            y2="60"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="40"
+            y1="60"
+            x2="70"
+            y2="80"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="70"
+            y1="80"
+            x2="100"
+            y2="70"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <line
+            x1="100"
+            y1="70"
+            x2="130"
+            y2="90"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+    </div>
+  </main>
+</div>

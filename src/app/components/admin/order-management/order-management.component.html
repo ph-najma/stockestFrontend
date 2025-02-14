@@ -1,0 +1,151 @@
+<app-header></app-header>
+
+<div class="flex flex-1 mt-6">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main Order Management Content -->
+  <main class="flex-1 p-6 bg-gray-50">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Order Management</h2>
+
+    <!-- Order Types Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      <!-- Limit Orders -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold text-gray-800">Limit Orders</h3>
+        <p class="text-sm text-gray-500">Buy/Sell at a specified price.</p>
+        <button
+          routerLink="/limitorders"
+          class="mt-4 bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Manage Limit Orders
+        </button>
+      </div>
+
+      <!-- Market Orders -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold text-gray-800">Market Orders</h3>
+        <p class="text-sm text-gray-500">
+          Buy/Sell at the current market price.
+        </p>
+        <button
+          routerLink="/marketorders"
+          class="mt-4 bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Manage Market Orders
+        </button>
+      </div>
+
+      <!-- Stop Orders -->
+      <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold text-gray-800">Stop Orders</h3>
+        <p class="text-sm text-gray-500">
+          Triggered when a price threshold is met.
+        </p>
+        <button
+          routerLink="/stoporders"
+          class="mt-4 bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          Manage Stop Orders
+        </button>
+      </div>
+    </div>
+
+    <!-- Order Execution Section -->
+    <div class="bg-indigo-50 p-6 rounded-lg shadow-md">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Order Execution</h3>
+      <p class="text-sm text-gray-500 mb-4">
+        View pending, completed, and failed orders.
+      </p>
+
+      <!-- Filter Options -->
+      <!-- Filter Options -->
+      <div class="flex space-x-4 mb-4">
+        <button
+          class="py-2 px-4 rounded-lg"
+          [ngClass]="{
+            'bg-blue-800 text-white': currentFilter === 'PENDING',
+            'bg-gray-200 hover:bg-gray-300': currentFilter !== 'PENDING'
+          }"
+          (click)="filterOrders('PENDING')"
+        >
+          Pending
+        </button>
+        <button
+          class="py-2 px-4 rounded-lg"
+          [ngClass]="{
+            'bg-blue-800 text-white': currentFilter === 'COMPLETED',
+            'bg-gray-200 hover:bg-gray-300': currentFilter !== 'COMPLETED'
+          }"
+          (click)="filterOrders('COMPLETED')"
+        >
+          Completed
+        </button>
+        <button
+          class="py-2 px-4 rounded-lg"
+          [ngClass]="{
+            'bg-blue-800 text-white': currentFilter === 'FAILED',
+            'bg-gray-200 hover:bg-gray-300': currentFilter !== 'FAILED'
+          }"
+          (click)="filterOrders('FAILED')"
+        >
+          Failed
+        </button>
+      </div>
+
+      <!-- Order List -->
+      <table
+        class="w-full table-auto bg-white rounded-lg shadow-md border-collapse"
+      >
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">
+              Order ID
+            </th>
+            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">
+              Stock
+            </th>
+            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">
+              Type
+            </th>
+            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">
+              Status
+            </th>
+            <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of filteredOrders; let index = index">
+            <td class="py-3 px-4">{{ index + 1 }}</td>
+            <td class="py-3 px-4">{{ order.stock.symbol }}</td>
+            <td class="py-3 px-4">{{ order.type }}</td>
+            <td
+              class="py-3 px-4"
+              [ngClass]="{
+                'text-green-500': order.status === 'COMPLETED',
+                'text-yellow-500': order.status === 'PENDING',
+                'text-red-500': order.status === 'FAILED'
+              }"
+            >
+              {{ order.status }}
+            </td>
+            <td class="py-3 px-4">
+              <button
+                [routerLink]="['/viewdetails', order._id]"
+                class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600 focus:outline-none"
+              >
+                View Details
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredOrders.length === 0">
+            <td colspan="5" class="py-3 px-4 text-center text-gray-500">
+              No orders found for this status.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
