@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { environment } from '../../../../enviornments/enviornment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-video-call',

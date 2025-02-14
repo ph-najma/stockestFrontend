@@ -3,7 +3,7 @@ import { ApiService } from '../../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { io, Socket } from 'socket.io-client';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../enviornments/enviornment';
+import { environment } from '../../../../environments/environment';
 import {
   IStock,
   ITransaction,

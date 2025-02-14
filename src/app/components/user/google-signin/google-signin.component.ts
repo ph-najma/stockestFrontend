@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { environment } from '../../../../enviornments/enviornment';
+import { environment } from '../../../../environments/environment';
 import { GoogleLoginResponse } from '../../../interfaces/userInterface';
 
 @Component({

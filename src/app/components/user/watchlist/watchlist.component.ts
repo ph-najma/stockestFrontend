@@ -16,7 +16,7 @@ import { io, Socket } from 'socket.io-client';
 import { AlertService } from '../../../services/alert.service';
 import { Subscription } from 'rxjs';
 import { SearchComponent } from '../search/search.component';
-import { environment } from '../../../../enviornments/enviornment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-watchlist',
