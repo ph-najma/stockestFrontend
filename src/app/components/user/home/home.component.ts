@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectorRef,
+  NgZone,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import {
@@ -11,17 +17,13 @@ import { Socket } from 'ngx-socket-io';
 import { CommonModule, NgClass } from '@angular/common';
 import { AddMoneyComponent } from '../add-money/add-money.component';
 import { Subscription } from 'rxjs';
-
+import { io } from 'socket.io-client';
+import { AuthHeadersService } from '../../../services/auth-headers.service';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    UserHeaderComponent,
-    CommonModule,
-    AddMoneyComponent,
-    SearchComponent,
-    RouterModule,
-  ],
+  imports: [UserHeaderComponent, CommonModule, AddMoneyComponent, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -32,17 +34,31 @@ export class HomeComponent implements OnInit, OnDestroy {
     overallProfit: 0,
     todaysProfit: 0,
   };
+
   private subscription = new Subscription();
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private socket: Socket
+    private socket: Socket,
+    private authheaders: AuthHeadersService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
   ngOnInit(): void {
     this.fetchPortfolio();
-    this.socket.on('portfolioSummaryUpdate', (data: any) => {
-      console.log('connected socket');
-      this.updatePortfolioSummary(data);
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+    const socket = io(environment.apiUrl, {
+      auth: {
+        token: token,
+      },
+    });
+    socket.on('portfolioSummaryUpdate', (data: any) => {
+      console.log('connected socket', data);
+      this.ngZone.run(() => {
+        // Ensure UI update
+        this.updatePortfolioSummary(data);
+      });
     });
   }
   ngOnDestroy(): void {
@@ -77,10 +93,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(portfolioSubscription);
   }
   updatePortfolioSummary(data: any): void {
-    this.summary.totalPortfolioValue = data.totalPortfolioValue;
-    this.summary.overallProfit = data.overallProfit;
-    this.summary.todaysProfit = data.todaysProfit;
-    console.log('Live portfolio summary updated:', this.summary);
+    this.summary = { ...data };
+    this.cdr.detectChanges(); // Manually trigger change detection
   }
 
   logout() {

@@ -29,7 +29,8 @@ export class UserLoginComponent implements OnDestroy {
   isUserLogin: boolean = true;
   private subscription = new Subscription();
   constructor(private apiService: ApiService, private router: Router) {}
-
+  imageUrl: string =
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
   onSubmit(userData: ILoginFormData) {
     this.error = null;
     this.successMessage = null;

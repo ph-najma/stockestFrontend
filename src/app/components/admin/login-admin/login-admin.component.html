@@ -1,40 +1,32 @@
 <div class="flex min-h-screen bg-gray-100">
+  <app-right-side-login class="w-1/2"></app-right-side-login>
   <div
-    class="flex items-center justify-center w-1/2 bg-gradient-to-br from-green-300 via-green-100 to-green-200 p-10"
+    class="flex items-center justify-center w-1/2 p-10 bg-gradient-to-t from-white via-gray-50 to-gray-100"
   >
-    <div class="text-center">
-      <div class="relative mb-4">
+    <div class="w-full max-w-md p-8 bg-white shadow-2xl rounded-3xl relative">
+      <div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
         <img
-          src="../../assets/logo.png"
+          [src]="imageUrl"
           alt="GainNest Logo"
-          class="h-24 w-24 mx-auto animate-bounce transition-transform duration-500 transform hover:scale-110"
+          class="h-16 w-16 rounded-full border-4 border-green-400 shadow-lg"
         />
-        <div
-          class="absolute inset-0 rounded-full blur-lg bg-green-400 opacity-40 -z-10"
-        ></div>
       </div>
-      <h1 class="text-4xl font-extrabold text-green-800 tracking-wide">
-        STOCKEST
-      </h1>
-      <p class="mt-2 text-lg font-medium text-gray-600">
-        Manage with Confidence
+      <h2 class="text-3xl font-bold mb-6 text-center text-green-800">
+        Welcome Back
+      </h2>
+      <h2 class="text-xl font-bold mb-6 text-center text-green-800">
+        Admin Login
+      </h2>
+      <p class="text-sm text-gray-600 text-center mb-4">
+        Login to manage with confidence
       </p>
-      <div class="mt-6 flex justify-center space-x-4">
-        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-        <div
-          class="w-3 h-3 rounded-full bg-green-500 opacity-60 animate-pulse"
-        ></div>
-        <div class="w-3 h-3 rounded-full bg-green-500 opacity-40"></div>
-      </div>
+      <app-login-form
+        [title]="'Admin Login'"
+        [loading]="loading"
+        [error]="error"
+        [successMessage]="successMessage"
+        (submitForm)="onSubmit($event)"
+      ></app-login-form>
     </div>
-  </div>
-  <div class="flex items-center justify-center w-1/2 p-10">
-    <app-login-form
-      [title]="'Admin Login'"
-      [loading]="loading"
-      [error]="error"
-      [successMessage]="successMessage"
-      (submitForm)="onSubmit($event)"
-    ></app-login-form>
   </div>
 </div>

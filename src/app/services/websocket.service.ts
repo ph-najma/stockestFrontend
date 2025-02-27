@@ -9,7 +9,9 @@ import { environment } from '../../environments/environment';
 export class WebsocketService {
   private socket: Socket;
   constructor() {
-    this.socket = io(environment.apiUrl);
+    this.socket = io(environment.socketUrl, {
+      auth: { token: sessionStorage.getItem('token') },
+    });
   }
 
   requestPortfolioUpdate(userId: string): void {
@@ -44,6 +46,20 @@ export class WebsocketService {
       });
     });
   }
+  subscribeToWatchlist(watchlist: string[]): void {
+    this.socket.emit('subscribeWatchlist', watchlist);
+  }
+
+  emit(event: string, data: any) {
+    this.socket.emit(event, data);
+  }
+
+  listen<T>(event: string): Observable<T> {
+    return new Observable((subscriber) => {
+      this.socket.on(event, (data: T) => subscriber.next(data));
+    });
+  }
+
   emitEvent(event: string, payload: any) {
     this.socket.emit(event, payload);
   }

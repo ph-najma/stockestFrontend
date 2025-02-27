@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert.service';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
+
 @Component({
   selector: 'app-user-list',
   imports: [

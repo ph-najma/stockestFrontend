@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { ILimit } from '../../../interfaces/userInterface';
-import { CommonModule } from '@angular/common';
 
+import { CommonModule } from '@angular/common';
+import { ILimit } from '../../../interfaces/userInterface';
 @Component({
   selector: 'app-limit-admin',
   imports: [
@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './limit-admin.component.css',
 })
 export class LimitAdminComponent implements OnInit, OnDestroy {
-  limit: ILimit = {
+  limit = {
     maxBuyLimit: 1000,
     maxSellLimit: 500,
     timeframeInHours: 24,

@@ -9,12 +9,15 @@ import {
   ILoginResponse,
   ILoginFormData,
   IOrder,
-  IPortfolioResponse,
   ISessionDetails,
   IPortfolioResponseModel,
   ISessionFormData,
   ITransaction,
   IorderAndIIransaction,
+  IStock,
+  IuserList,
+  IPromotion,
+  ILimit,
 } from '../interfaces/userInterface';
 
 @Injectable({
@@ -37,21 +40,29 @@ export class AdminApiService {
         })
       );
   }
-  userList(page: number, limit: number): Observable<any> {
+  userList(page: number, limit: number): Observable<IResponseModel<IuserList>> {
     if (this.userCache[page]) {
       console.log(`Returning cached data for page ${page}`);
       return of(this.userCache[page]);
     }
     return this.http
-      .get<any>(`${this.apiUrl}/userlist?page=${page}&limit=${limit}`, {
-        headers: this.authHeaders.getAuthHeaders(),
-      })
+      .get<IResponseModel<IuserList>>(
+        `${this.apiUrl}/userlist?page=${page}&limit=${limit}`,
+        {
+          headers: this.authHeaders.getAuthHeaders(),
+        }
+      )
       .pipe(
         tap((response) => {
           console.log(`Caching data for page ${page}`);
           this.userCache[page] = response;
         })
       );
+  }
+  getStocks(): Observable<IResponseModel<IStock[]>> {
+    return this.http.get<IResponseModel<IStock[]>>(`${this.apiUrl}/stocklist`, {
+      headers: this.authHeaders.getAuthHeaders(),
+    });
   }
   disableUser(userId: string): Observable<string> {
     return this.http.post<string>(
@@ -62,8 +73,8 @@ export class AdminApiService {
       }
     );
   }
-  getOrders(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/orders`, {
+  getOrders(): Observable<IResponseModel<IOrder[]>> {
+    return this.http.get<IResponseModel<IOrder[]>>(`${this.apiUrl}/orders`, {
       headers: this.authHeaders.getAuthHeaders(),
     });
   }
@@ -128,15 +139,25 @@ export class AdminApiService {
       headers: this.authHeaders.getAuthHeaders(),
     });
   }
-  getSessionById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getSessionById/${id}`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getSessionById(id: string): Observable<IResponseModel<ISessionFormData>> {
+    return this.http.get<IResponseModel<ISessionFormData>>(
+      `${this.apiUrl}/getSessionById/${id}`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
-  updateSession(sessionId: string, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/updateSession/${sessionId}`, data, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  updateSession(
+    sessionId: string,
+    data: ISessionFormData
+  ): Observable<IResponseModel<ISessionFormData>> {
+    return this.http.post<IResponseModel<ISessionFormData>>(
+      `${this.apiUrl}/updateSession/${sessionId}`,
+      data,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
   getUserPortfolio(userId: string | null): Observable<IPortfolioResponseModel> {
     return this.http.get<IPortfolioResponseModel>(
@@ -146,8 +167,10 @@ export class AdminApiService {
       }
     );
   }
-  createPomotions(promotionData: any): Observable<any> {
-    return this.http.post<any>(
+  createPomotions(
+    promotionData: IPromotion
+  ): Observable<IResponseModel<IPromotion>> {
+    return this.http.post<IResponseModel<IPromotion>>(
       `${this.apiUrl}/createPromotions`,
       promotionData,
       { headers: this.authHeaders.getAuthHeaders() }
@@ -161,8 +184,11 @@ export class AdminApiService {
       }
     );
   }
-  cancelSession(id: string, newStatus: any): Observable<any> {
-    return this.http.post(
+  cancelSession(
+    id: string,
+    newStatus: string
+  ): Observable<IResponseModel<ISessionDetails>> {
+    return this.http.post<IResponseModel<ISessionDetails>>(
       `${this.apiUrl}/cancelSession/${id}`,
       { status: newStatus },
       {
@@ -178,15 +204,19 @@ export class AdminApiService {
       }
     );
   }
-  getLimits(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/limit`, {
+  getLimits(): Observable<IResponseModel<ILimit>> {
+    return this.http.get<IResponseModel<ILimit>>(`${this.apiUrl}/limit`, {
       headers: this.authHeaders.getAuthHeaders(),
     });
   }
-  saveLimits(limits: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/updateLimit`, limits, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  saveLimits(limits: ILimit): Observable<IResponseModel<ILimit>> {
+    return this.http.post<IResponseModel<ILimit>>(
+      `${this.apiUrl}/updateLimit`,
+      limits,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
   getOrderById(
     orderId: string

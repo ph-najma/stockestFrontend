@@ -18,10 +18,16 @@ import {
   ISessionDetails,
 } from '../../../interfaces/userInterface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { InstructorHeaderComponent } from '../instructor-header/instructor-header.component';
 
 @Component({
   selector: 'app-new-instructor',
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule,
+    InstructorHeaderComponent,
+  ],
   templateUrl: './new-instructor.component.html',
   styleUrl: './new-instructor.component.css',
 })
@@ -35,6 +41,8 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   courses: ISessionDetails[] = [];
   isCourse: Boolean = true;
+  imageUrl: string =
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/sessionImages/course.jpg';
 
   assignedCourses: Set<string> = new Set();
   private subscription = new Subscription();

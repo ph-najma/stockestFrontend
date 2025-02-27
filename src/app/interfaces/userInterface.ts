@@ -29,6 +29,11 @@ export interface IUser {
   referralsCount: number;
   refreshToken?: string;
 }
+export interface IuserList {
+  usersData: IUser[];
+  totalUsers: number;
+  totalPages: number;
+}
 
 export interface IStock {
   id?: string;
@@ -41,7 +46,7 @@ export interface IStock {
   volume: number;
   price: number;
   change: number;
-  changePercent: string;
+  changePercent: number;
   latestTradingDay: string;
   adjustedVolume: number;
 }
@@ -87,10 +92,54 @@ export interface IPortfolio {
 }
 export interface IWatchlist {
   user: IUser | null;
-  stocks: { stockId: IStock; addedAt: Date }[];
+  stocks: { stockId: string; addedAt: Date }[];
   name: string;
   createdAt: Date;
 }
+export interface newIWatchlist {
+  _id: string;
+  name: string;
+  createdAt: string;
+  user: string;
+  __v: number;
+  stocks: IStock[];
+}
+export interface ITradeDetail {
+  time: string;
+  type: string;
+  symbol: string;
+  quantity: number;
+  entry: number;
+  exit: number;
+  pnl: number;
+  notes: string;
+}
+
+export interface IDailyTrade {
+  date: string;
+  trades: number;
+  overallPL: number;
+  netPL: number;
+  status: string;
+  details: ITradeDetail[];
+}
+
+export interface ITradeDiary {
+  winRate: number;
+  averageWin: number;
+  averageLoss: number;
+  overallPL: number;
+  netPL: number;
+  totalTrades: number;
+  charges: number;
+  brokerage: number;
+  trades: IDailyTrade[];
+}
+
+export interface IGenerateResponse {
+  response: string;
+}
+
 export interface IorderAndIIransaction {
   order: IOrder;
   transaction: ITransaction[];
@@ -118,6 +167,12 @@ export interface ILimit {
   maxSellLimit: number;
   timeframeInHours: number;
 }
+export interface Iportfolio {
+  quantity: number;
+  stockId: IStock;
+  _id: string;
+  isIntraday: Boolean;
+}
 
 // session-form.model.ts
 export interface ISessionFormData {
@@ -131,15 +186,7 @@ export interface ISessionFormData {
 export interface GoogleLoginResponse {
   credential: string;
 }
-// export interface Session {
-//   _id: string;
-//   instructor_name: string;
-//   specialization: string;
-//   hourly_rate: number;
-//   start_time: string;
-//   end_time: string;
-//   status: 'SCHEDULED' | 'COMPLETED' | 'CANCELED';
-// }
+
 export interface ISessionDetails {
   id: string;
   created_at?: string;
@@ -153,6 +200,33 @@ export interface ISessionDetails {
   student_id?: string;
   updated_at?: string;
   connection_status?: string;
+}
+export interface ISignupBonus {
+  enabled: boolean;
+  amount: number;
+  minimumDepositRequired: number;
+  expiryDays: number;
+}
+
+export interface IReferralBonus {
+  enabled: boolean;
+  referrerAmount: number;
+  refereeAmount: number;
+  maxReferralsPerUser: number;
+  minimumDepositRequired: number;
+}
+
+export interface ILoyaltyRewards {
+  enabled: boolean;
+  tradingAmount: number;
+  rewardAmount: number;
+  timeframeInDays: number;
+}
+
+export interface IPromotion {
+  signupBonus: ISignupBonus;
+  referralBonus: IReferralBonus;
+  loyaltyRewards: ILoyaltyRewards;
 }
 
 export interface IRazorpayOrder {

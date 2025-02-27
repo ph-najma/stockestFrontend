@@ -66,7 +66,7 @@ export class TradingViewComponent {
       .getStockData(symbol)
       .subscribe(
         (response) => {
-          this.stockData = response;
+          this.stockData = response.data;
           console.log(this.stockData);
           // Fetch transaction data
           const getTransactionsSubscription = this.apiService

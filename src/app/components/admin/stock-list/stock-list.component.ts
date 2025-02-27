@@ -6,7 +6,7 @@ import { ApiService } from '../../../services/api.service';
 import { IStock, IResponseModel } from '../../../interfaces/userInterface';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { WebsocketService } from '../../../services/websocket.service';
-
+import { AdminApiService } from '../../../services/admin-api.service';
 @Component({
   selector: 'app-stock-list',
   imports: [HeaderComponent, SidebarComponent, ListingTableComponent],
@@ -33,7 +33,7 @@ export class StockListComponent {
   ];
 
   constructor(
-    private apiService: ApiService,
+    private apiService: AdminApiService,
     private webSocketService: WebsocketService,
     private cdr: ChangeDetectorRef
   ) {}

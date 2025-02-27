@@ -26,6 +26,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   fetchOrders(): void {
     const getOrderSubscription = this.apiService.getOrders().subscribe(
       (response) => {
+        console.log(response.data);
         this.orders = response.data;
         this.filterOrders(this.currentFilter);
       },

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faUsers,
@@ -9,61 +9,47 @@ import {
   faWifi,
 } from '@fortawesome/free-solid-svg-icons';
 import { InstructorHeaderComponent } from '../instructor-header/instructor-header.component';
-interface ISession {
-  student_id: string;
-  instructor_name: string;
-  instructorId: string;
-  instructor_email: string;
-  specialization: string;
-  hourly_rate: number;
-  start_time: Date;
-  end_time: Date;
-  status: 'SCHEDULED' | 'COMPLETED' | 'CANCELED';
-  created_at: Date;
-  updated_at: Date;
-  connection_status: 'CONNECTED' | 'DISCONNECTED' | 'NOT CONNECTED';
-}
+import { ApiService } from '../../../services/api.service';
+import {
+  ISessionDetails,
+  ISessionFormData,
+} from '../../../interfaces/userInterface';
+
 @Component({
   selector: 'app-instructor-dashboard',
   imports: [FontAwesomeModule, CommonModule, InstructorHeaderComponent],
   templateUrl: './instructor-dashboard.component.html',
   styleUrl: './instructor-dashboard.component.css',
 })
-export class InstructorDashboardComponent {
+export class InstructorDashboardComponent implements OnInit {
   faUsers = faUsers;
   faCheckCircle = faCheckCircle;
   faDollarSign = faDollarSign;
   faCalendar = faCalendar;
   faWifi = faWifi;
-
-  sessions: ISession[] = [
-    {
-      student_id: '1',
-      instructor_name: 'John Doe',
-      instructorId: '123',
-      instructor_email: 'john@example.com',
-      specialization: 'Mathematics',
-      hourly_rate: 50,
-      start_time: new Date('2025-02-06T10:00:00'),
-      end_time: new Date('2025-02-06T11:00:00'),
-      status: 'SCHEDULED',
-      created_at: new Date(),
-      updated_at: new Date(),
-      connection_status: 'NOT CONNECTED',
-    },
-    // Add more sample sessions as needed
-  ];
-
-  // Calculate dashboard metrics
-  totalSessions = this.sessions.length;
-  completedSessions = this.sessions.filter((s) => s.status === 'COMPLETED')
-    .length;
-  upcomingSessions = this.sessions.filter(
-    (s) => s.status === 'SCHEDULED' && new Date(s.start_time) > new Date()
-  );
-  averageRate =
-    this.sessions.reduce((acc, curr) => acc + curr.hourly_rate, 0) /
-    this.sessions.length;
+  sessions: ISessionDetails[] = [];
+  totalSessions: number = 0;
+  completedSessions: number = 0;
+  upcomingSessions: ISessionDetails[] = [];
+  averageRate: number = 0;
+  constructor(private apiService: ApiService) {}
+  ngOnInit(): void {
+    this.apiService.getAssignedCourses().subscribe((response) => {
+      console.log(response);
+      this.sessions = response.data;
+      console.log(this.sessions);
+      this.totalSessions = this.sessions.length;
+      this.completedSessions = this.sessions.filter(
+        (s) => s.status === 'COMPLETED'
+      ).length;
+      this.upcomingSessions = this.sessions.filter(
+        (s) => s.status === 'SCHEDULED' && new Date(s.start_time) > new Date()
+      );
+      this.averageRate =
+        this.sessions.reduce((acc, curr) => acc + curr.hourly_rate, 0) /
+        this.sessions.length;
+    });
+  }
 
   // Format date for display
   formatDate(date: Date): string {

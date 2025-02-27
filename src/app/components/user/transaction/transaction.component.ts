@@ -15,16 +15,19 @@ import {
 })
 export class TransactionComponent {
   transactionData: ITransaction[] = [];
+  limit: number = 10;
+  totalPages: number = 1;
+  currentPage: number = 1;
   private subscriptions = new Subscription();
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.fetchTransactions();
+    this.fetchTransactions(this.currentPage);
   }
 
-  fetchTransactions(): void {
+  fetchTransactions(page: number): void {
     const transactionSubscription = this.apiService
-      .getTransactions()
+      .getTransactions(page, this.limit)
       .subscribe({
         next: (response: IResponseModel<ITransaction[]>) => {
           if (response.data) {
@@ -60,5 +63,11 @@ export class TransactionComponent {
 
   toggleColumnVisibility(column: keyof typeof this.columnVisibility): void {
     this.columnVisibility[column] = !this.columnVisibility[column];
+  }
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.fetchTransactions(page);
+    }
   }
 }

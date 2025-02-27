@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   dropdownOpen: boolean = false;
-
+  imageUrl: string =
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }

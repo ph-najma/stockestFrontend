@@ -1,81 +1,209 @@
-<nav
-  class="bg-gray-900 text-gray-300 flex items-center justify-between px-8 py-4"
->
-  <!-- Logo Section -->
-  <div class="flex items-center space-x-4">
-    <img
-      src="../../assets/logo.png"
-      alt="Logo"
-      class="w-10 h-10 rounded-full"
-    />
-    <h1 class="text-lg font-bold text-green-400">Stockest</h1>
-  </div>
+<header class="w-full bg-black border-b border-green-500/20">
+  <div class="container mx-auto max-w-[90%] sm:max-w-[95%]">
+    <nav class="px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+          <div
+            class="h-9 w-9 rounded-lg bg-green-500 flex items-center justify-center"
+          >
+            <span class="text-black font-bold text-xl">D</span>
+          </div>
+          <span class="text-green-400 font-semibold text-lg">Dashboard</span>
+        </div>
 
-  <!-- Centered Navigation Links -->
-  <ul class="flex space-x-6">
-    <li>
-      <a href="#" class="text-green-400 font-semibold">Home</a>
-    </li>
-    <li>
-      <a (click)="market()" class="hover:text-green-400">Markets</a>
-    </li>
-    <li>
-      <a [routerLink]="['/portfolio']" class="hover:text-green-400"
-        >Portfolio</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/watchlist']" class="hover:text-green-400"
-        >Watchlist</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/addmoney']" class="hover:text-green-400">Add Money</a>
-    </li>
-    <li>
-      <a [routerLink]="['/myOrders']" class="hover:text-green-400">Orders</a>
-    </li>
-    <li>
-      <a [routerLink]="['/transactionhistory']" class="hover:text-green-400"
-        >Money</a
-      >
-    </li>
-    <li>
-      <a [routerLink]="['/tradediary']" class="hover:text-green-400"
-        >Trade Diary</a
-      >
-    </li>
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-8">
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Quick search..."
+              class="w-64 pl-10 pr-4 py-2 bg-black border border-green-500/20 rounded-lg text-green-400 text-sm focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+            />
+          </div>
 
-    <li>
-      <a [routerLink]="['/ai']" class="hover:text-green-400">Ask to Ai</a>
-    </li>
-  </ul>
+          <!-- Navigation Links -->
+          <div class="flex items-center space-x-6">
+            <a
+              [routerLink]="['/home']"
+              class="text-green-400 hover:text-green-300"
+              >Home</a
+            >
+            <a
+              [routerLink]="['/stocks']"
+              class="text-green-400 hover:text-green-300"
+              >Markets</a
+            >
+            <a
+              [routerLink]="['/portfolio']"
+              class="text-green-400 hover:text-green-300"
+              >Portfolio</a
+            >
+            <a
+              [routerLink]="['/watchlist']"
+              class="text-green-400 hover:text-green-300"
+              >Watchlist</a
+            >
+            <a
+              [routerLink]="['/myOrders']"
+              class="text-green-400 hover:text-green-300"
+              >Orders</a
+            >
+            <a
+              [routerLink]="['/transactionhistory']"
+              class="text-green-400 hover:text-green-300"
+              >Transactions</a
+            >
+            <a
+              [routerLink]="['/tradediary']"
+              class="text-green-400 hover:text-green-300"
+              >Trade Diary</a
+            >
+            <a
+              [routerLink]="['/ai']"
+              class="text-green-400 hover:text-green-300"
+              >Ask to AI</a
+            >
+          </div>
+        </div>
 
-  <!-- Right Profile Section -->
-  <div class="relative" (clickOutside)="closeDropdown()">
+        <!-- User Section -->
+        <div class="hidden md:flex items-center space-x-4">
+          <!-- Notifications -->
+          <button
+            class="relative p-2 text-green-400 hover:text-green-300 rounded-lg hover:bg-green-500/10"
+          >
+            🔔
+            <span
+              *ngIf="notificationCount > 0"
+              class="absolute top-1 right-1 h-4 w-4 bg-green-500 rounded-full text-black text-xs flex items-center justify-center"
+            >
+              {{ notificationCount }}
+            </span>
+          </button>
+
+          <!-- User Profile Dropdown -->
+          <div class="relative">
+            <button
+              (click)="isDropdownOpen = !isDropdownOpen"
+              class="flex items-center space-x-3 p-2 text-green-400 hover:text-green-300 rounded-lg hover:bg-green-500/10 focus:outline-none"
+            >
+              <div
+                class="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center"
+              >
+                👤
+              </div>
+              <span class="font-medium">John Doe</span>
+              ⌄
+            </button>
+
+            <div
+              *ngIf="isDropdownOpen"
+              class="absolute right-0 mt-2 w-40 bg-black border border-green-500/20 rounded-lg shadow-lg"
+            >
+              <a
+                [routerLink]="['/userProfile']"
+                class="block px-4 py-2 text-green-400 hover:bg-green-700 hover:text-green-300"
+                >Profile</a
+              >
+              <a
+                (click)="logout()"
+                class="block px-4 py-2 text-green-400 hover:bg-green-700 hover:text-green-300"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          class="md:hidden p-2 text-green-400 hover:text-green-300 rounded-lg hover:bg-green-500/10"
+          (click)="toggleMenu()"
+        >
+          {{ isMenuOpen ? "❌" : "☰" }}
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
     <div
-      class="flex items-center space-x-2 cursor-pointer"
-      (click)="toggleDropdown()"
+      *ngIf="isMenuOpen"
+      class="md:hidden border-t border-green-500/20 transition-all duration-300"
     >
-      <span class="text-sm">Hi <span class="font-semibold">NIZAM</span></span>
-      <img
-        src="https://via.placeholder.com/40"
-        alt="Profile"
-        class="w-8 h-8 rounded-full border-2 border-green-400"
-      />
-    </div>
+      <div class="px-4 py-3 space-y-3">
+        <!-- Mobile Search -->
+        <div class="relative mb-4">
+          <input
+            type="text"
+            placeholder="Quick search..."
+            class="w-full pl-10 pr-4 py-2 bg-black border border-green-500/20 rounded-lg text-green-400 text-sm"
+          />
+        </div>
 
-    <!-- Dropdown Menu -->
-    <div
-      *ngIf="dropdownOpen"
-      class="absolute right-0 mt-2 w-32 bg-gray-900 text-white rounded-md shadow-lg"
-    >
-      <a (click)="profile()" class="block px-4 py-2 hover:text-green-400"
-        >Profile</a
-      >
-      <a (click)="logout()" class="block px-4 py-2 hover:text-green-400"
-        >Logout</a
-      >
+        <!-- Mobile Navigation Links -->
+        <a
+          [routerLink]="['/home']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Home</a
+        >
+        <a
+          [routerLink]="['/stocks']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Markets</a
+        >
+        <a
+          [routerLink]="['/portfolio']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Portfolio</a
+        >
+        <a
+          [routerLink]="['/watchlist']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Watchlist</a
+        >
+        <a
+          [routerLink]="['/myOrders']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Orders</a
+        >
+        <a
+          [routerLink]="['/transactionhistory']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Transactions</a
+        >
+        <a
+          [routerLink]="['/tradediary']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Trade Diary</a
+        >
+        <a
+          [routerLink]="['/ai']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Ask to AI</a
+        >
+        <a
+          [routerLink]="['/userProfile']"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Profile</a
+        >
+        <a
+          (click)="logout()"
+          class="block py-2 text-green-400 hover:text-green-300"
+          >Logout</a
+        >
+
+        <!-- User Profile for Mobile -->
+        <div class="pt-3 border-t border-green-500/20">
+          <button class="flex items-center space-x-3 py-2 text-green-400">
+            <div
+              class="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center"
+            >
+              👤
+            </div>
+            <span class="font-medium">Najma</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</header>

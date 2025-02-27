@@ -35,7 +35,7 @@
 <!-- Call Control Buttons -->
 <div class="flex justify-center gap-4 mt-8">
   <button
-    (click)="createOffer()"
+    (click)="startCall()"
     class="btn bg-green-500 text-white px-8 py-3 rounded-xl hover:bg-green-600"
   >
     📞 Start Call
@@ -46,16 +46,28 @@
   >
     ❌ End Call
   </button>
+
   <button
     (click)="maximizeVideo('localVideo')"
     class="btn bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600"
   >
     ⬆️ Maximize Local
   </button>
+
+  <div *ngIf="roomCode && !joiner" class="text-lg font-bold">
+    Share this code: <span class="text-blue-500">{{ roomCode }}</span>
+  </div>
+
+  <input
+    [(ngModel)]="userRoomCode"
+    type="text"
+    placeholder="Enter room code"
+    class="border p-2 rounded"
+  />
   <button
-    (click)="enablePictureInPicture('localVideo')"
-    class="btn bg-gray-700 text-white px-6 py-3 rounded-xl hover:bg-gray-900"
+    (click)="joinCall()"
+    class="btn bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600"
   >
-    🎥 PiP Mode Local
+    🔗 Join Call
   </button>
 </div>

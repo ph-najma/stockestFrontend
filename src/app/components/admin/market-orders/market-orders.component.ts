@@ -3,6 +3,7 @@ import { FilterComponent } from '../filter/filter.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../header/header.component';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationComponent } from '../../reusable/confirmation/confirmation.component';
 import { Subscription } from 'rxjs';
@@ -39,11 +40,15 @@ export class MarketOrdersComponent {
 
   constructor(
     private apiService: AdminApiService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.fetchOrders();
+  }
+  sanitizeInput(input: string): string {
+    return input.replace(/[<>\/'";]/g, '').trim();
   }
 
   fetchOrders(): void {
@@ -63,6 +68,7 @@ export class MarketOrdersComponent {
   }
 
   applyFilters(): void {
+    this.filters.user = this.sanitizeInput(this.filters.user);
     this.marketOrders = this.allOrders.filter((order) => {
       const matchesStatus =
         this.filters.status === 'all' || order.status === this.filters.status;

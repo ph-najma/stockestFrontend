@@ -1,23 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../../environments/environment';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-video-call',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   standalone: true,
   templateUrl: './video-call.component.html',
   styleUrl: './video-call.component.css',
 })
 export class VideoCallComponent implements OnInit {
-  private socket = io(environment.apiUrl);
+  private socket: Socket;
   localStream: any;
   remoteStream: any;
   peerConnection: any;
+  roomCode: string = '';
+  joiner: boolean = false;
+  userRoomCode: string = '';
+  isHost: boolean = false;
   servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-
+  constructor() {
+    this.socket = io(environment.socketUrl);
+  }
   ngOnInit() {
-    this.getMedia();
+    const token = sessionStorage.getItem('token'); // Ensure the token is stored correctly
+
+    this.socket = io(environment.socketUrl, {
+      auth: {
+        token: token,
+      },
+      extraHeaders: {
+        Authorization: `Bearer ${token}`, // Send token in headers
+      },
+    });
+    this.socket.on('room-created', (roomCode) => {
+      this.roomCode = roomCode;
+    });
+
+    this.socket.on('room-joined', (roomCode) => {
+      this.roomCode = roomCode;
+      this.createPeerConnection();
+    });
+
+    this.socket.on('user-joined', () => {
+      if (this.isHost) this.createOffer();
+    });
 
     this.socket.on('offer', async (offer: any) => {
       await this.createAnswer(offer);
@@ -33,7 +62,43 @@ export class VideoCallComponent implements OnInit {
     this.socket.on('call-ended', () => {
       this.terminateCall();
     });
+    this.getMedia();
   }
+  startCall() {
+    this.isHost = true;
+    this.socket.emit('create-room');
+  }
+
+  joinCall() {
+    if (this.userRoomCode) {
+      this.joiner = true;
+      this.socket.emit('join-room', this.userRoomCode);
+    }
+  }
+
+  // createPeerConnection() {
+  //   this.peerConnection = new RTCPeerConnection(this.servers);
+
+  //   // Add local stream tracks
+  //   this.localStream.getTracks().forEach((track: any) => {
+  //     this.peerConnection.addTrack(track, this.localStream);
+  //   });
+
+  //   // Handle incoming remote stream
+  //   this.peerConnection.ontrack = (event: any) => {
+  //     const remoteVideo = document.getElementById(
+  //       'remoteVideo'
+  //     ) as HTMLVideoElement;
+  //     remoteVideo.srcObject = event.streams[0];
+  //   };
+
+  //   // Handle ICE candidates
+  //   this.peerConnection.onicecandidate = (event: any) => {
+  //     if (event.candidate) {
+  //       this.socket.emit('ice-candidate', event.candidate);
+  //     }
+  //   };
+  // }
   terminateCall() {
     // Close peer connection
     if (this.peerConnection) {
@@ -73,65 +138,110 @@ export class VideoCallComponent implements OnInit {
     }
   }
 
-  async createOffer() {
-    this.peerConnection = new RTCPeerConnection(this.servers);
-    this.localStream
-      .getTracks()
-      .forEach((track: any) =>
-        this.peerConnection.addTrack(track, this.localStream)
-      );
+  // async createOffer() {
+  //   this.peerConnection = new RTCPeerConnection(this.servers);
+  //   this.localStream
+  //     .getTracks()
+  //     .forEach((track: any) =>
+  //       this.peerConnection.addTrack(track, this.localStream)
+  //     );
 
+  //   this.peerConnection.ontrack = (event: any) => {
+  //     const videoElement = document.getElementById(
+  //       'remoteVideo'
+  //     ) as HTMLVideoElement;
+  //     videoElement.srcObject = event.streams[0];
+  //   };
+
+  //   this.peerConnection.onicecandidate = (event: any) => {
+  //     if (event.candidate) {
+  //       this.socket.emit('ice-candidate', event.candidate);
+  //     }
+  //   };
+
+  //   const offer = await this.peerConnection.createOffer();
+  //   await this.peerConnection.setLocalDescription(offer);
+  //   this.socket.emit('offer', offer);
+  // }
+
+  // async createAnswer(offer: any) {
+  //   this.peerConnection = new RTCPeerConnection(this.servers);
+  //   this.localStream
+  //     .getTracks()
+  //     .forEach((track: any) =>
+  //       this.peerConnection.addTrack(track, this.localStream)
+  //     );
+
+  //   this.peerConnection.ontrack = (event: any) => {
+  //     const videoElement = document.getElementById(
+  //       'remoteVideo'
+  //     ) as HTMLVideoElement;
+  //     videoElement.srcObject = event.streams[0];
+  //   };
+
+  //   this.peerConnection.onicecandidate = (event: any) => {
+  //     if (event.candidate) {
+  //       this.socket.emit('ice-candidate', event.candidate);
+  //     }
+  //   };
+
+  //   await this.peerConnection.setRemoteDescription(offer);
+  //   const answer = await this.peerConnection.createAnswer();
+  //   await this.peerConnection.setLocalDescription(answer);
+  //   this.socket.emit('answer', answer);
+  // }
+  createPeerConnection() {
+    this.peerConnection = new RTCPeerConnection(this.servers);
+
+    // Ensure tracks are added properly
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track: any) => {
+        this.peerConnection.addTrack(track, this.localStream);
+      });
+    }
+
+    // Set up event listener for remote track
     this.peerConnection.ontrack = (event: any) => {
-      const videoElement = document.getElementById(
+      console.log('Remote track received:', event.streams[0]);
+
+      const remoteVideo = document.getElementById(
         'remoteVideo'
       ) as HTMLVideoElement;
-      videoElement.srcObject = event.streams[0];
-    };
-
-    this.peerConnection.onicecandidate = (event: any) => {
-      if (event.candidate) {
-        this.socket.emit('ice-candidate', event.candidate);
+      if (remoteVideo) {
+        remoteVideo.srcObject = event.streams[0];
       }
     };
 
+    // Handle ICE candidates
+    this.peerConnection.onicecandidate = (event: any) => {
+      if (event.candidate) {
+        this.socket.emit('ice-candidate', {
+          roomCode: this.roomCode,
+          candidate: event.candidate,
+        });
+      }
+    };
+  }
+
+  async createOffer() {
+    this.createPeerConnection();
     const offer = await this.peerConnection.createOffer();
     await this.peerConnection.setLocalDescription(offer);
-    this.socket.emit('offer', offer);
+    this.socket.emit('offer', { roomCode: this.roomCode, offer });
   }
 
   async createAnswer(offer: any) {
-    this.peerConnection = new RTCPeerConnection(this.servers);
-    this.localStream
-      .getTracks()
-      .forEach((track: any) =>
-        this.peerConnection.addTrack(track, this.localStream)
-      );
-
-    this.peerConnection.ontrack = (event: any) => {
-      const videoElement = document.getElementById(
-        'remoteVideo'
-      ) as HTMLVideoElement;
-      videoElement.srcObject = event.streams[0];
-    };
-
-    this.peerConnection.onicecandidate = (event: any) => {
-      if (event.candidate) {
-        this.socket.emit('ice-candidate', event.candidate);
-      }
-    };
-
+    this.createPeerConnection();
     await this.peerConnection.setRemoteDescription(offer);
     const answer = await this.peerConnection.createAnswer();
     await this.peerConnection.setLocalDescription(answer);
-    this.socket.emit('answer', answer);
+    this.socket.emit('answer', { roomCode: this.roomCode, answer });
   }
   endCall() {
-    // Close peer connection and clean up local media
     this.terminateCall();
-
-    // Notify the server that the call has ended
-    this.socket.emit('call-ended');
+    this.socket.emit('call-ended', { roomCode: this.roomCode });
   }
+
   maximizeVideo(videoId: string) {
     const videoElement = document.getElementById(videoId) as HTMLVideoElement;
     if (videoElement.requestFullscreen) {

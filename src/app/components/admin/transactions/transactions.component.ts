@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { IResponseModel} from '../../../interfaces/userInterface';
+import { IResponseModel } from '../../../interfaces/userInterface';
 import { Subscription } from 'rxjs';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { TransStatsComponent } from '../trans-stats/trans-stats.component';
@@ -25,13 +25,37 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   transactions: ITransaction[] = [];
   transactionColumns = [
-    { header: 'Transaction ID', key: 'id', width: '15%' },
-    { header: 'User', key: 'user', width: '15%' },
-    { header: 'Type', key: 'type', width: '10%' },
-    { header: 'Stock Symbol', key: 'stock', width: '10%' },
+    { header: 'Transaction ID', key: '_id', width: '15%' },
+    {
+      header: 'Buyer',
+      key: 'buyer.name',
+      width: '15%',
+      custom: (row: ITransaction) => ({
+        text: row.buyer?.name || 'N/A', // Use optional chaining to avoid errors
+        class: '',
+      }),
+    },
+    {
+      header: 'Seller',
+      key: 'seller.name',
+      width: '15%',
+      custom: (row: ITransaction) => ({
+        text: row.seller?.name || 'N/A', // Use optional chaining to avoid errors
+        class: '',
+      }),
+    },
+    {
+      header: 'Stock',
+      key: 'stock.symbol',
+      width: '10%',
+      custom: (row: ITransaction) => ({
+        text: row.stock?.symbol || 'N/A', // Use optional chaining to avoid errors
+        class: '',
+      }),
+    },
     { header: 'Quantity', key: 'quantity', width: '10%' },
     { header: 'Price', key: 'price', width: '10%' },
-    { header: 'Total', key: 'total', width: '10%' },
+
     {
       header: 'Date',
       key: 'date',

@@ -20,6 +20,11 @@ import {
   IPortfolioResponse,
   IOrderResponseData,
   IResponseModel,
+  Iportfolio,
+  ITradeDiary,
+  ISessionDetails,
+  IGenerateResponse,
+  newIWatchlist,
 } from '../interfaces/userInterface';
 @Injectable({
   providedIn: 'root',
@@ -107,7 +112,7 @@ export class ApiService {
     });
   }
   getStocks(): Observable<IResponseModel<IStock[]>> {
-    return this.http.get<IResponseModel<IStock[]>>(`${this.apiUrl}/stocklist`, {
+    return this.http.get<IResponseModel<IStock[]>>(`${this.apiUrl}/stocks`, {
       headers: this.authHeaders.getAuthHeaders(),
     });
   }
@@ -136,38 +141,54 @@ export class ApiService {
       }
     );
   }
-  updateUserPortfolio(updatedPortfolio: any): Observable<any> {
-    return this.http.post<any>(
+  updateUserPortfolio(
+    updatedPortfolio: Iportfolio[]
+  ): Observable<IResponseModel<Iportfolio[]>> {
+    return this.http.post<IResponseModel<Iportfolio[]>>(
       `${this.apiUrl}/updatePortfolio`,
       updatedPortfolio
     );
   }
 
-  addToWatchlist(data: IWatchlist): Observable<any> {
-    return this.http.post<IWatchlist>(
+  addToWatchlist(data: IWatchlist): Observable<IResponseModel<IWatchlist>> {
+    return this.http.post<IResponseModel<IWatchlist>>(
       `${this.apiUrl}/ensureAndAddStock`,
       data,
       { headers: this.authHeaders.getAuthHeaders() }
     );
   }
-  getWatchlist(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getWatchlist`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getWatchlist(): Observable<IResponseModel<newIWatchlist>> {
+    return this.http.get<IResponseModel<newIWatchlist>>(
+      `${this.apiUrl}/getWatchlist`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
-  getTradeDiary(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/tradeDiary`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getTradeDiary(): Observable<IResponseModel<ITradeDiary>> {
+    return this.http.get<IResponseModel<ITradeDiary>>(
+      `${this.apiUrl}/tradeDiary`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
-  getHistroical(symbol: string | undefined): Observable<any> {
-    return this.http.get(`${this.apiUrl}/gethistorical?symbol=${symbol}`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getHistroical(
+    symbol: string | undefined
+  ): Observable<IResponseModel<IStock[]>> {
+    return this.http.get<IResponseModel<IStock[]>>(
+      `${this.apiUrl}/gethistorical?symbol=${symbol}`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
-  getTransactions(): Observable<IResponseModel<ITransaction[]>> {
+  getTransactions(
+    page: number,
+    limit: number
+  ): Observable<IResponseModel<ITransaction[]>> {
     return this.http.get<IResponseModel<ITransaction[]>>(
-      `${this.apiUrl}/transactions`,
+      `${this.apiUrl}/transactions?page=${page}&limit=${limit}`,
       {
         headers: this.authHeaders.getAuthHeaders(),
       }
@@ -181,15 +202,23 @@ export class ApiService {
       }
     );
   }
-  getStockData(symbol: string | undefined): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getStockData?symbol=${symbol}`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getStockData(
+    symbol: string | undefined
+  ): Observable<IResponseModel<IStock[]>> {
+    return this.http.get<IResponseModel<IStock[]>>(
+      `${this.apiUrl}/getStockData?symbol=${symbol}`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
-  getTransaction(symbol: any): Observable<any> {
-    return this.http.get(`${this.apiUrl}/transactions`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
+  getTransaction(symbol: string): Observable<IResponseModel<ITransaction[]>> {
+    return this.http.get<IResponseModel<ITransaction[]>>(
+      `${this.apiUrl}/transactions`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
   }
   getOrderByUserId(
     page: number,
@@ -203,32 +232,39 @@ export class ApiService {
       }
     );
   }
-  getPurchasedCourses(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getPurchased`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
-  }
-  getActiveSessions(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/activeSessions`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
-  }
-  getAssignedCourses(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getAssigned`, {
-      headers: this.authHeaders.getAuthHeaders(),
-    });
-  }
-  generatePrompt(prompt: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/generate`, { prompt });
-  }
-  getUploadURL(): Observable<{ uploadURL: string; fileKey: string }> {
-    return this.http.get<{ uploadURL: string; fileKey: string }>(
-      `${this.apiUrl}/get-upload-url`
+  getPurchasedCourses(): Observable<IResponseModel<ISessionDetails[]>> {
+    return this.http.get<IResponseModel<ISessionDetails[]>>(
+      `${this.apiUrl}/getPurchased`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
     );
   }
-  getDownloadURL(fileKey: string) {
-    return this.http.get<{ signedUrl: string }>(
-      `${this.apiUrl}/getDownloadUrl?key=${fileKey}`
+  getActiveSessions(): Observable<IResponseModel<ISessionDetails[]>> {
+    return this.http.get<IResponseModel<ISessionDetails[]>>(
+      `${this.apiUrl}/activeSessions`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
+  }
+  getAssignedCourses(): Observable<IResponseModel<ISessionDetails[]>> {
+    return this.http.get<IResponseModel<ISessionDetails[]>>(
+      `${this.apiUrl}/getAssigned`,
+      {
+        headers: this.authHeaders.getAuthHeaders(),
+      }
+    );
+  }
+  generatePrompt(prompt: string): Observable<IGenerateResponse> {
+    return this.http.post<IGenerateResponse>(`${this.apiUrl}/generate`, {
+      prompt,
+    });
+  }
+  getUploadURL(userId: string): Observable<{ url: string; Key: string }> {
+    return this.http.post<{ url: string; Key: string }>(
+      `${this.apiUrl}/get-upload-url`,
+      { userId }
     );
   }
 

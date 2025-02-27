@@ -10,10 +10,16 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { IMessage } from '../../../interfaces/userInterface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserHeaderComponent } from '../user-header/user-header.component';
 
 @Component({
   selector: 'app-ai',
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    UserHeaderComponent,
+  ],
   templateUrl: './ai.component.html',
   styleUrl: './ai.component.css',
 })

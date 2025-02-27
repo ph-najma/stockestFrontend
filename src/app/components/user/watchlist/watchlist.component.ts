@@ -26,58 +26,48 @@ import { environment } from '../../../../environments/environment';
 })
 export class WatchlistComponent implements OnInit, OnDestroy {
   stocks: IStock[] = [];
-  private socket!: Socket;
-  private subscriptions = new Subscription();
-
+  watchlistSymbols: string[] = [];
+  subscription!: Subscription;
   constructor(
     private apiService: ApiService,
-    private socketService: WebsocketService,
-    private alertService: AlertService,
+    private websocketService: WebsocketService,
     private cdr: ChangeDetectorRef
   ) {}
-
   ngOnInit(): void {
     this.fetchWatchlist();
-    this.initializeSocketConnection();
   }
+  fetchWatchlist() {
+    this.apiService.getWatchlist().subscribe((res) => {
+      console.log('Watchlist response:', res);
+      this.stocks = res.data.stocks;
+      this.watchlistSymbols = res.data.stocks.map(
+        (stockItem) => stockItem.symbol
+      );
 
-  fetchWatchlist(): void {
-    const watchlistSubscription = this.apiService.getWatchlist().subscribe({
-      next: (response: IResponseModel<IStock[]>) => {
-        this.stocks = response.data.filter(
-          (stock: IStock) => stock.id && stock.symbol
-        );
-      },
-      error: (err) => {
-        console.error('Error fetching watchlist:', err);
-        this.alertService.showAlert('Error fetching watchlist');
-      },
+      // Send watchlist symbols to the WebSocket server
+      this.websocketService.emit('subscribeWatchlist', this.watchlistSymbols);
+
+      // Listen for live stock updates
+      this.subscribeToStockUpdates();
     });
-    this.subscriptions.add(watchlistSubscription);
   }
-
-  initializeSocketConnection(): void {
-    this.socket = io(environment.apiUrl);
-    this.socket.on('stockUpdate', (updatedStocks: IStock[]) => {
-      updatedStocks.forEach((updatedStock) => {
-        const stockIndex = this.stocks.findIndex(
-          (stock) => stock.symbol === updatedStock.symbol
-        );
-        if (stockIndex !== -1) {
-          this.stocks[stockIndex] = {
-            ...this.stocks[stockIndex],
-            ...updatedStock,
-          };
-        }
+  subscribeToStockUpdates() {
+    this.subscription = this.websocketService
+      .listen<IStock[]>('WatchlistStockUpdate') // 👈 Explicitly define type
+      .subscribe((updatedStocks) => {
+        console.log('📈 Live Watchlist Data:', updatedStocks);
+        this.stocks = updatedStocks;
+        this.cdr.detectChanges(); // Ensure UI updates
       });
-      this.cdr.detectChanges();
-    });
+  }
+
+  trackStock(index: number, stock: IStock) {
+    return stock.symbol;
   }
 
   ngOnDestroy(): void {
-    if (this.socket) {
-      this.socket.disconnect();
+    if (this.subscription) {
+      this.subscription.unsubscribe(); // Unsubscribe to prevent memory leaks
     }
-    this.subscriptions.unsubscribe();
   }
 }

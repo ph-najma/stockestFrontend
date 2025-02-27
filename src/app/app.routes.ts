@@ -36,7 +36,6 @@ import { AddMoneyComponent } from './components/user/add-money/add-money.compone
 import { ViewDetailsComponent } from './components/admin/view-details/view-details.component';
 import { AppSummaryComponent } from './components/admin/app-summary/app-summary.component';
 import { InstructorLoginComponent } from './components/instructor/instructor-login/instructor-login.component';
-import { InstructorHomeComponent } from './components/user/instructor-home/instructor-home.component';
 import { VideoCallComponent } from './components/user/video-call/video-call.component';
 import { NewInstructorComponent } from './components/instructor/new-instructor/new-instructor.component';
 import { InstructorDashboardComponent } from './components/instructor/instructor-dashboard/instructor-dashboard.component';

@@ -20,6 +20,8 @@ export class InstructorLoginComponent implements OnDestroy {
   successMessage: string | null = null;
   isInstructorLogin: boolean = true;
   private subscription = new Subscription();
+  imageUrl: string =
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
   constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit(userData: ILoginFormData) {

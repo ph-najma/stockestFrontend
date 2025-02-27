@@ -17,21 +17,17 @@ import {
   IStock,
   IOrder,
   IPortfolioItem,
+  Iportfolio,
 } from '../../../interfaces/userInterface';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
-interface portfolio {
-  quantity: number;
-  stockId: IStock;
-  _id: string;
-  isIntraday: Boolean;
-}
+
 @Component({
   selector: 'app-stocks',
   imports: [
     CommonModule,
     UserHeaderComponent,
     FormsModule,
-    SearchComponent,
+
     AlertModalComponent,
   ],
   templateUrl: './stocks.component.html',
@@ -49,7 +45,7 @@ export class StocksComponent implements OnInit, OnDestroy {
   buyPrice: number = 0;
   sellPrice: number = 0;
   orderType: 'MARKET' | 'LIMIT' | 'STOP' = 'MARKET';
-  userPortfolio: portfolio[] = [];
+  userPortfolio: Iportfolio[] = [];
   userBalance: number = 0;
   isIntraday: boolean = false;
   currentUser: IUser | null = null;
@@ -80,6 +76,7 @@ export class StocksComponent implements OnInit, OnDestroy {
       .afterFetchUpdate()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((stocks) => {
+        console.log('Stock update received:', stocks);
         this.stocks = stocks;
       });
   }
@@ -90,7 +87,7 @@ export class StocksComponent implements OnInit, OnDestroy {
         this.stocks = stocks;
         if (user) {
           this.userBalance = user.balance;
-          this.userPortfolio = user.portfolio as unknown as portfolio[];
+          this.userPortfolio = user.portfolio as unknown as Iportfolio[];
           this.currentUser = user;
         }
       })
@@ -180,7 +177,7 @@ export class StocksComponent implements OnInit, OnDestroy {
     }
   }
 
-  async updatePortfolioAfterSell(IstockInPortfolio: portfolio): Promise<void> {
+  async updatePortfolioAfterSell(IstockInPortfolio: Iportfolio): Promise<void> {
     const updatedPortfolio = this.userPortfolio
       .map((item) => {
         if (item.stockId.symbol === this.selectedStock.symbol) {

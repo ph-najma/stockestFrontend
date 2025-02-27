@@ -73,7 +73,8 @@ export class TradingCourseComponent implements OnInit, OnDestroy {
           originalPrice: 999,
           discountedPrice: session.hourly_rate || 500,
           discount: 50,
-          image: 'assets/course.jpg',
+          image:
+            'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/sessionImages/course.jpg',
         }));
       });
     this.subscription.add(ActiveSessionsSubscription);

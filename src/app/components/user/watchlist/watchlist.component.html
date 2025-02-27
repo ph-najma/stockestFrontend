@@ -1,60 +1,61 @@
 <app-user-header></app-user-header>
 
-<div class="bg-black min-h-screen text-white p-4">
-  <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-bold">Watchlist</h2>
-      <button
-        routerLink="/stocks"
-        class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700"
-      >
-        + Add More
-      </button>
+<div class="w-full max-w-full mx-auto p-4 bg-black min-h-screen">
+  <div
+    class="bg-[#1A1A1A] shadow-xl border border-green-500 rounded-lg max-w-6xl mx-auto"
+  >
+    <div class="border-b border-green-500 p-4">
+      <h2 class="text-xl font-bold text-green-400">Watchlist</h2>
     </div>
 
-    <div class="space-y-2">
-      <div
-        *ngFor="let stock of stocks"
-        class="bg-gray-900 rounded-lg p-4 hover:bg-gray-800"
-      >
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <fa-icon [icon]="'star'" class="w-5 h-5 text-yellow-500"></fa-icon>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold">{{ stock.symbol }}</span>
-                <span class="text-gray-400 text-sm">{{ stock.symbol }}</span>
-              </div>
-              <span class="text-sm text-gray-400">Vol: {{ stock.volume }}</span>
-            </div>
-          </div>
+    <div class="p-4">
+      <div class="space-y-4">
+        <div
+          class="grid grid-cols-6 gap-4 text-green-500 text-sm font-medium pb-2"
+        >
+          <div class="col-span-2">Symbol / Name</div>
+          <div class="text-right">Price</div>
+          <div class="text-right">Change</div>
+          <div class="text-right">% Change</div>
+        </div>
 
-          <div class="flex items-center gap-6">
-            <div class="text-right">
-              <div class="font-bold">${{ stock.price }}</div>
-              <div
-                class="text-sm"
-                [ngClass]="{
-                  'text-green-500': stock.change > 0,
-                  'text-red-500': stock.change <= 0
-                }"
-              >
-                <ng-container *ngIf="stock.change > 0; else trendingDown">
-                  <fa-icon [icon]="'arrow-up'" class="w-4 h-4 inline"></fa-icon>
-                </ng-container>
-                <ng-template #trendingDown>
-                  <fa-icon
-                    [icon]="'arrow-down'"
-                    class="w-4 h-4 inline"
-                  ></fa-icon>
-                </ng-template>
-                {{ stock.change }}%
-              </div>
+        <div
+          *ngFor="let stock of stocks; trackBy: trackStock"
+          class="bg-black border border-green-500 rounded-lg p-4 hover:bg-gray-800 transition-colors"
+        >
+          <div class="grid grid-cols-6 gap-4">
+            <div class="col-span-2 text-green-400 font-bold">
+              {{ stock.symbol }}
             </div>
-            <fa-icon
-              [icon]="'ellipsis-vertical'"
-              class="w-5 h-5 text-gray-400 cursor-pointer"
-            ></fa-icon>
+
+            <div class="text-right font-mono text-green-300">
+              ${{ stock.price.toFixed(2) }}
+            </div>
+
+            <div
+              class="text-right font-mono"
+              [ngClass]="stock.change >= 0 ? 'text-green-400' : 'text-red-400'"
+            >
+              <span class="flex items-center justify-end">
+                <i
+                  [ngClass]="
+                    stock.change >= 0
+                      ? 'fas fa-chevron-up'
+                      : 'fas fa-chevron-down'
+                  "
+                ></i>
+                {{ stock.change.toFixed(2) }}
+              </span>
+            </div>
+
+            <div
+              class="text-right font-mono"
+              [ngClass]="
+                stock.changePercent >= 0 ? 'text-green-400' : 'text-red-400'
+              "
+            >
+              {{ stock.change >= 0 ? "+" : "" }}{{ stock.change }}%
+            </div>
           </div>
         </div>
       </div>

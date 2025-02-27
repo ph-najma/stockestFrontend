@@ -8,7 +8,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import {
   IPortfolioResponse,
   IPortfolioItem,
-  IPortfolioResponseModel
+  IPortfolioResponseModel,
 } from '../../../interfaces/userInterface';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { Subscription } from 'rxjs';
@@ -49,6 +49,7 @@ export class UserPortfolioComponent implements OnInit, OnDestroy {
         .getUserPortfolio(this.userId)
         .subscribe({
           next: (response: IPortfolioResponseModel) => {
+            console.log(response);
             this.userPortfolioData = response.data;
             if (this.userPortfolioData) {
               this.userPortfolioData.portfolio =

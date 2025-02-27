@@ -9,20 +9,32 @@ import {
   IUser,
 } from '../../../interfaces/userInterface';
 import { UserHeaderComponent } from '../user-header/user-header.component';
-
+import { AlertService } from '../../../services/alert.service';
+import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
+import { S3Service } from '../../../services/s3.service';
 @Component({
   selector: 'app-user-profile',
-  imports: [FormsModule, UserHeaderComponent, CommonModule],
+  imports: [
+    FormsModule,
+    UserHeaderComponent,
+    CommonModule,
+    AlertModalComponent,
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
+  profileImageUrl: string = '';
+  private bucketName = 'stockest-user-profile'; // Replace with actual bucket name
+  private region = 'ap-south-1';
   user: {
+    id: string;
     name: string;
     fullName: string;
     profilePhoto: string;
     refferalCode?: string;
   } = {
+    id: '',
     name: 'NIZAM',
     fullName: 'NIZAM P H',
     profilePhoto: '',
@@ -34,7 +46,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   isEligibleForReferralBonus: boolean = false;
   isEligibleForLoyaltyRewards: boolean = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private alertService: AlertService,
+    private s3Service: S3Service
+  ) {}
   ngOnInit(): void {
     this.fetchUserDetails();
   }
@@ -42,6 +58,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     const userDetailsSubscription = this.apiService.getUserProfile().subscribe({
       next: (response: IResponseModel<IUser>) => {
         console.log(response);
+        this.user.id = response.data._id;
         this.user.name = response.data.name;
         this.user.fullName = response.data.name || 'unknown user';
         this.user.profilePhoto = response.data.profilePhoto;
@@ -51,6 +68,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
           response.data.isEligibleForLoyaltyRewards;
         this.isEligibleForReferralBonus =
           response.data.isEligibleForReferralBonus;
+
+        if (response.data.profilePhoto) {
+          this.profileImageUrl = response.data.profilePhoto;
+        }
       },
       error: (err) => console.error('Failed to fetch user details:', err),
     });
@@ -65,39 +86,31 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.add(promotionSubscription);
   }
-  uploadPhoto(event: any): void {
+
+  onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
+    const encodedFileName = encodeURIComponent(file.name);
+    console.log('Uploading file:', file.name, 'Type:', file.type);
 
-    this.apiService.getUploadURL().subscribe({
-      next: (response: { uploadURL: string; fileKey: string }) => {
-        const uploadURL = response.uploadURL;
-        const fileKey = response.fileKey;
-
-        // Upload file to S3 using the signed URL
-        fetch(uploadURL, {
+    this.s3Service.getSignedUrl(file.name, file.type).subscribe({
+      next: ({ signedUrl, fileUrl }) => {
+        fetch(signedUrl, {
           method: 'PUT',
-          headers: { 'Content-Type': file.type },
           body: file,
+          headers: { 'Content-Type': file.type },
         })
           .then(() => {
-            alert('Photo uploaded successfully!');
-
-            // Set the user's profile photo to the S3 URL
-            this.apiService.getDownloadURL(fileKey).subscribe({
-              next: (result: { signedUrl: string }) => {
-                this.user.profilePhoto = result.signedUrl;
-              },
-              error: (err: any) =>
-                console.error('Failed to get download URL:', err),
+            this.s3Service.updateProfile(fileUrl).subscribe({
+              next: () => (this.profileImageUrl = fileUrl),
+              error: (error) => console.error('Error updating profile:', error),
             });
           })
-          .catch((err) => console.error('Upload error:', err));
+          .catch((error) => console.error('Error uploading file:', error));
       },
-      error: (err: any) => console.error('Failed to get upload URL:', err),
+      error: (error) => console.error('Error getting signed URL:', error),
     });
   }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

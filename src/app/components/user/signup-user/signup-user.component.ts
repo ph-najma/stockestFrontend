@@ -13,21 +13,22 @@ import { Subscription } from 'rxjs';
 import { RightSideLoginComponent } from '../../reusable/right-side-login/right-side-login.component';
 
 @Component({
-    selector: 'app-signup-user',
-    imports: [
-        CommonModule,
-        RouterModule,
-        RightSideLoginComponent,
-        ReactiveFormsModule,
-    ],
-    templateUrl: './signup-user.component.html',
-    styleUrl: './signup-user.component.css'
+  selector: 'app-signup-user',
+  imports: [
+    CommonModule,
+    RouterModule,
+    RightSideLoginComponent,
+    ReactiveFormsModule,
+  ],
+  templateUrl: './signup-user.component.html',
+  styleUrl: './signup-user.component.css',
 })
 export class SignupUserComponent implements OnDestroy {
   signUpForm: FormGroup;
   loading: boolean = false;
   error: string | null = null;
   successMessage: string | null = null;
+
   private subsription = new Subscription();
   constructor(private apiService: ApiService, private router: Router) {
     this.signUpForm = new FormGroup({
