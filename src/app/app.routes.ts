@@ -37,8 +37,10 @@ import { ViewDetailsComponent } from './components/admin/view-details/view-detai
 import { AppSummaryComponent } from './components/admin/app-summary/app-summary.component';
 import { InstructorLoginComponent } from './components/instructor/instructor-login/instructor-login.component';
 import { VideoCallComponent } from './components/user/video-call/video-call.component';
-import { NewInstructorComponent } from './components/instructor/new-instructor/new-instructor.component';
+
 import { InstructorDashboardComponent } from './components/instructor/instructor-dashboard/instructor-dashboard.component';
+import { InstructorSessionsComponent } from './components/instructor/instructor-sessions/instructor-sessions.component';
+import { NotificationsComponent } from './components/user/notifications/notifications.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'signup', pathMatch: 'full' },
@@ -117,13 +119,17 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'notifications',
+    component: NotificationsComponent,
+  },
+  {
     path: 'instructorLogin',
     component: InstructorLoginComponent,
     canActivate: [nonauthenticatedGuard],
   },
   {
     path: 'instructorhome',
-    component: NewInstructorComponent,
+    component: InstructorSessionsComponent,
     canActivate: [authGuard],
   },
   {

@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { AdminApiService } from '../../../services/admin-api.service';
 
 import { CommonModule } from '@angular/common';
-import { ILimit } from '../../../interfaces/userInterface';
+
 @Component({
   selector: 'app-limit-admin',
   imports: [

@@ -7,7 +7,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { AlertService } from '../../../services/alert.service';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { Subscription } from 'rxjs';
-import { ISessionFormData } from '../../../interfaces/userInterface';
+import { ISessionFormData } from '../../../interfaces/interface';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
 @Component({
   selector: 'app-create-session',

@@ -5,7 +5,7 @@ import { ApiService } from '../../../services/api.service';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IStock } from '../../../interfaces/userInterface';
+import { IStock } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-stock-details',

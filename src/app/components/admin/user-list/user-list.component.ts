@@ -3,7 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
-import { IUser } from '../../../interfaces/userInterface';
+import { IUser } from '../../../interfaces/interface';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert.service';
@@ -28,7 +28,7 @@ export class UserListComponent {
   totalUsers: number = 0;
   totalPages: number = 1;
   limit: number = 10;
-  columns: any[] = [];
+
   private subscription = new Subscription();
   constructor(
     private apiService: AdminApiService,
@@ -36,39 +36,36 @@ export class UserListComponent {
     private alertService: AlertService
   ) {}
 
-  ngOnInit(): void {
-    this.initializeColumns();
-    this.fetchUsers(this.currentPage);
-  }
+  columns = [
+    { header: 'Email', key: 'email', sortable: true },
+    { header: 'Registration Date', key: 'createdAt', sortable: true },
+    {
+      header: 'Account Status',
+      key: 'is_Blocked',
+      sortable: false,
+      custom: (row: IUser) =>
+        row.is_Blocked
+          ? { class: 'text-red-500', text: 'Blocked' }
+          : { class: 'text-green-500', text: 'Active' },
+    },
+    {
+      header: 'Actions',
+      key: 'actions',
+      custom: (row: IUser) => `
+        <button (click)="disableUser('${row._id}', ${row.is_Blocked})"
+          class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800">
+          ${row.is_Blocked ? 'Enable' : 'Disable'}
+        </button>
+        <button (click)="viewPortfolio('${row._id}')"
+          class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800">
+          View Portfolio
+        </button>
+      `,
+    },
+  ];
 
-  initializeColumns() {
-    this.columns = [
-      { header: 'Email', key: 'email', sortable: true },
-      { header: 'Registration Date', key: 'createdAt', sortable: true },
-      {
-        header: 'Account Status',
-        key: 'is_Blocked',
-        sortable: false,
-        custom: (row: IUser) =>
-          row.is_Blocked
-            ? { class: 'text-red-500', text: 'Blocked' }
-            : { class: 'text-green-500', text: 'Active' },
-      },
-      {
-        header: 'Actions',
-        key: 'actions',
-        custom: (row: IUser) => `
-          <button (click)="disableUser('${row._id}', ${row.is_Blocked})"
-            class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800">
-            ${row.is_Blocked ? 'Enable' : 'Disable'}
-          </button>
-          <button (click)="viewPortfolio('${row._id}')"
-            class="bg-blue-700 text-white py-1 px-2 rounded-md hover:bg-blue-800">
-            View Portfolio
-          </button>
-        `,
-      },
-    ];
+  ngOnInit(): void {
+    this.fetchUsers(this.currentPage);
   }
 
   fetchUsers(page: number) {
@@ -115,12 +112,6 @@ export class UserListComponent {
     this.router.navigate(['portfolioAdmin', userId]);
   }
 
-  // goToPage(page: number): void {
-  //   if (page >= 1 && page <= this.totalPages) {
-  //     this.currentPage = page;
-  //     this.fetchUsers(page);
-  //   }
-  // }
   onPageChange(page: number): void {
     this.currentPage = page;
     this.fetchUsers(page);

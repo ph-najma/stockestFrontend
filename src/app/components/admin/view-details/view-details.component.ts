@@ -11,7 +11,7 @@ import {
   IResponseModel,
   ITransaction,
   IorderAndIIransaction,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 @Component({
   selector: 'app-view-details',
   imports: [SidebarComponent, HeaderComponent, RouterModule, CommonModule],

@@ -8,7 +8,7 @@ import {
 import { ApiService } from '../../../services/api.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { IMessage } from '../../../interfaces/userInterface';
+import { IMessage } from '../../../interfaces/interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserHeaderComponent } from '../user-header/user-header.component';
 

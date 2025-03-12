@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { IOrder } from '../../../interfaces/userInterface';
+import { IOrder } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-order-management',
@@ -26,7 +26,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   fetchOrders(): void {
     const getOrderSubscription = this.apiService.getOrders().subscribe(
       (response) => {
-        console.log(response.data);
         this.orders = response.data;
         this.filterOrders(this.currentFilter);
       },

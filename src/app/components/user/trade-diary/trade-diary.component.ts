@@ -13,7 +13,7 @@ import {
   ITrade,
   ITradeData,
   ITradeDetail,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-trade-diary',

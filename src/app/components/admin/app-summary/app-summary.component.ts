@@ -6,7 +6,7 @@ import { AdminApiService } from '../../../services/admin-api.service';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { IResponseModel } from '../../../interfaces/userInterface';
+import { IResponseModel } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-app-summary',

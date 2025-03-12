@@ -10,10 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { InstructorHeaderComponent } from '../instructor-header/instructor-header.component';
 import { ApiService } from '../../../services/api.service';
-import {
-  ISessionDetails,
-  ISessionFormData,
-} from '../../../interfaces/userInterface';
+import { ISessionDetails } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-instructor-dashboard',
@@ -50,22 +47,4 @@ export class InstructorDashboardComponent implements OnInit {
         this.sessions.length;
     });
   }
-
-  // Format date for display
-  formatDate(date: Date): string {
-    return new Date(date).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  }
-
-  // Sample data for the earnings chart
-  earningsData = [
-    { month: 'Jan', earnings: 2400 },
-    { month: 'Feb', earnings: 3600 },
-    { month: 'Mar', earnings: 3200 },
-    { month: 'Apr', earnings: 4500 },
-  ];
 }

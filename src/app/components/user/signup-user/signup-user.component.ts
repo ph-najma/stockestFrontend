@@ -40,6 +40,7 @@ export class SignupUserComponent implements OnDestroy {
       ]),
       confirmPassword: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required]),
+      referralCode: new FormControl(''),
     });
   }
 
@@ -65,6 +66,7 @@ export class SignupUserComponent implements OnDestroy {
       email: this.signUpForm.value.email,
       password: this.signUpForm.value.password,
       role: this.signUpForm.value.role,
+      referralCode: this.signUpForm.value.referralCode,
     };
 
     const signupSubscription = this.apiService.signup(userData).subscribe(

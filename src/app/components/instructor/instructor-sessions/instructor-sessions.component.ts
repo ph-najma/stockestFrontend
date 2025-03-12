@@ -8,30 +8,26 @@ import {
   faBars,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-
+import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import {
-  IResponseModel,
-  ISessionDetails,
-} from '../../../interfaces/userInterface';
+import { IResponseModel, ISessionDetails } from '../../../interfaces/interface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InstructorHeaderComponent } from '../instructor-header/instructor-header.component';
-
 @Component({
-  selector: 'app-new-instructor',
+  selector: 'app-instructor-sessions',
   imports: [
     CommonModule,
     RouterModule,
     FontAwesomeModule,
     InstructorHeaderComponent,
   ],
-  templateUrl: './new-instructor.component.html',
-  styleUrl: './new-instructor.component.css',
+  templateUrl: './instructor-sessions.component.html',
+  styleUrl: './instructor-sessions.component.css',
 })
-export class NewInstructorComponent implements OnInit, OnDestroy {
+export class InstructorSessionsComponent {
   faUsers = faUsers;
   faClock = faClock;
   faVideo = faVideo;
@@ -41,8 +37,7 @@ export class NewInstructorComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   courses: ISessionDetails[] = [];
   isCourse: Boolean = true;
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/sessionImages/course.jpg';
+  imageUrl: string = environment.sessionImageUrl;
 
   assignedCourses: Set<string> = new Set();
   private subscription = new Subscription();

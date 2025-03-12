@@ -10,4 +10,5 @@ export class AuthHeadersService {
       Authorization: `Bearer ${token}`,
     });
   }
+  
 }

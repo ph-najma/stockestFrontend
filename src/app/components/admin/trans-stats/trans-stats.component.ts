@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IStatistics } from '../../../interfaces/userInterface';
+import { IStatistics } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-trans-stats',

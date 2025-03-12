@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-right-side-login',
   imports: [],
@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './right-side-login.component.css',
 })
 export class RightSideLoginComponent {
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
+  imageUrl: string = environment.logo_URL;
 }

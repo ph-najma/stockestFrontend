@@ -3,7 +3,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { Router, RouterModule } from '@angular/router';
-import { IStock, IResponseModel } from '../../../interfaces/userInterface';
+import { IStock, IResponseModel } from '../../../interfaces/interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 @Component({

@@ -8,8 +8,9 @@ import { CommonModule } from '@angular/common';
 import {
   ILoginFormData,
   IUserResponseModel,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 import { RightSideLoginComponent } from '../../reusable/right-side-login/right-side-login.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-login',
@@ -29,8 +30,7 @@ export class UserLoginComponent implements OnDestroy {
   isUserLogin: boolean = true;
   private subscription = new Subscription();
   constructor(private apiService: ApiService, private router: Router) {}
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
+  imageUrl: string = environment.logo_URL;
   onSubmit(userData: ILoginFormData) {
     this.error = null;
     this.successMessage = null;

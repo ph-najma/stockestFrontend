@@ -3,7 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
-import { IStock, IResponseModel } from '../../../interfaces/userInterface';
+import { IStock, IResponseModel } from '../../../interfaces/interface';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { WebsocketService } from '../../../services/websocket.service';
 import { AdminApiService } from '../../../services/admin-api.service';
@@ -70,17 +70,6 @@ export class StockListComponent {
       });
     this.subscription.add(liveUpdatesSubscription);
   }
-  // updateStockList(updatedStock: IStock): void {
-  //   const index = this.stocks.findIndex(
-  //     (stock) => stock.symbol === updatedStock.symbol
-  //   );
-  //   if (index > -1) {
-  //     this.stocks[index] = { ...this.stocks[index], ...updatedStock };
-  //   } else {
-  //     this.stocks.push(updatedStock);
-  //   }
-  //   this.cdr.detectChanges();
-  // }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

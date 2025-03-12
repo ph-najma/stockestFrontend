@@ -3,6 +3,10 @@ export const environment = {
   apiUrl: 'https://belleshopping.shop/api',
   socketUrl: 'https://belleshopping.shop',
   S3_BUCKET_NAME: 'stockest-user-profile',
+  logo_URL:
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png',
+  sessionImageUrl:
+    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/sessionImages/course.jpg',
   AWS_REGION: 'ap-south-1',
   appName: 'My Angular App',
   googleClientId:

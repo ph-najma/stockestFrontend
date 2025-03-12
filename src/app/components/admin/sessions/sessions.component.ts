@@ -7,10 +7,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { Subscription } from 'rxjs';
 import { AlertService } from '../../../services/alert.service';
-import {
-  IResponseModel,
-  ISessionDetails,
-} from '../../../interfaces/userInterface';
+import { IResponseModel, ISessionDetails } from '../../../interfaces/interface';
 @Component({
   selector: 'app-sessions',
   imports: [

@@ -10,7 +10,7 @@ import { ApiService } from '../../../services/api.service';
 import {
   IPortfolioItem,
   IPortfolioResponseModel,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 import { UserHeaderComponent } from '../user-header/user-header.component';
 import { SearchComponent } from '../search/search.component';
 import { Socket } from 'ngx-socket-io';

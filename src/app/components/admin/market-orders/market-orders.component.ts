@@ -8,9 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationComponent } from '../../reusable/confirmation/confirmation.component';
 import { Subscription } from 'rxjs';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { IOrder, IResponseModel } from '../../../interfaces/userInterface';
+import { IOrder, IResponseModel } from '../../../interfaces/interface';
 import { RouterModule } from '@angular/router';
-import { IFilter } from '../../../interfaces/userInterface';
+import { IFilter } from '../../../interfaces/interface';
 @Component({
   selector: 'app-market-orders',
   imports: [

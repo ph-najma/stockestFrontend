@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IPortfolioItem } from '../../../interfaces/userInterface';
+import { IPortfolioItem } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-portfolio-holdings',

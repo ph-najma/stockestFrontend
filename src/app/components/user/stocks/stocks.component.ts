@@ -18,7 +18,7 @@ import {
   IOrder,
   IPortfolioItem,
   Iportfolio,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
 
 @Component({

@@ -1,35 +1,20 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
-import {
-  IResponseModel,
-  ISessionDetails,
-} from '../../../interfaces/userInterface';
+import { IResponseModel, ISessionDetails } from '../../../interfaces/interface';
 import { Subscription } from 'rxjs';
 import { AlertService } from '../../../services/alert.service';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
+import { UserHeaderComponent } from '../user-header/user-header.component';
+import { RazorpayPaymentResponse } from '../../../interfaces/interface';
+import { environment } from '../../../../environments/environment';
 declare var Razorpay: RazorpayInstance;
-interface RazorpayOrderResponse {
-  id: string;
-  amount: number;
-  currency: string;
-}
-interface RazorpayPaymentResponse {
-  razorpay_payment_id: string;
-  razorpay_order_id: string;
-  razorpay_signature: string;
-}
+
 @Component({
   selector: 'app-trading-course',
   standalone: true,
-  imports: [CommonModule, AlertModalComponent],
+  imports: [CommonModule, AlertModalComponent, UserHeaderComponent],
   templateUrl: './trading-course.component.html',
   styleUrls: ['./trading-course.component.css'],
 })
@@ -54,7 +39,6 @@ export class TradingCourseComponent implements OnInit, OnDestroy {
         this.purchasedCourses = new Set(
           response.data.map((course: ISessionDetails) => course.id)
         );
-        console.log(this.purchasedCourses);
       });
     this.subscription.add(purchasedCoursesubscription);
   }
@@ -69,12 +53,8 @@ export class TradingCourseComponent implements OnInit, OnDestroy {
           id: session.id,
           title: session.specialization,
           instructor: session.instructor_name,
-          rating: 4.5,
-          originalPrice: 999,
           discountedPrice: session.hourly_rate || 500,
-          discount: 50,
-          image:
-            'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/sessionImages/course.jpg',
+          image: environment.sessionImageUrl,
         }));
       });
     this.subscription.add(ActiveSessionsSubscription);

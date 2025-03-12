@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-header',
   imports: [CommonModule],
@@ -11,8 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   dropdownOpen: boolean = false;
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
+  imageUrl: string = environment.logo_URL;
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }

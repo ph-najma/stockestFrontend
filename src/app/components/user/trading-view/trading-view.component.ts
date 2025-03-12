@@ -9,7 +9,7 @@ import {
   ITransaction,
   ISymbolInfo,
   IBar,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 declare var TradingView: any;
 
 @Component({

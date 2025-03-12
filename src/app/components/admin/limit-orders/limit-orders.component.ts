@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationComponent } from '../../reusable/confirmation/confirmation.component';
 import { Subscription } from 'rxjs';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { IOrder } from '../../../interfaces/userInterface';
+import { IOrder } from '../../../interfaces/interface';
 import { AdminApiService } from '../../../services/admin-api.service';
 import { FilterComponent } from '../filter/filter.component';
-import { IResponseModel } from '../../../interfaces/userInterface';
-import { IFilter } from '../../../interfaces/userInterface';
+import { IResponseModel } from '../../../interfaces/interface';
+import { IFilter } from '../../../interfaces/interface';
 @Component({
   selector: 'app-limit-orders',
   imports: [

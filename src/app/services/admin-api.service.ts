@@ -18,7 +18,7 @@ import {
   IuserList,
   IPromotion,
   ILimit,
-} from '../interfaces/userInterface';
+} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',

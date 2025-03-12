@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import {
   ILoginFormData,
   IUserResponseModel,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-instructor-login',
   imports: [LoginFormComponent, RightSideLoginComponent],
@@ -20,8 +21,7 @@ export class InstructorLoginComponent implements OnDestroy {
   successMessage: string | null = null;
   isInstructorLogin: boolean = true;
   private subscription = new Subscription();
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
+  imageUrl: string = environment.logo_URL;
   constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit(userData: ILoginFormData) {
@@ -33,6 +33,7 @@ export class InstructorLoginComponent implements OnDestroy {
       (response: IUserResponseModel) => {
         if (response.data.token && response.data.user.is_instructor) {
           sessionStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('role', 'instructor');
           this.loading = false;
           this.successMessage = 'Successfully logged in';
           this.router.navigate(['/dashboard']);

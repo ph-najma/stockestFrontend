@@ -5,12 +5,12 @@ import { ApiService } from '../../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IStock ,IResponseModel} from '../../../interfaces/userInterface';
+import { IStock, IResponseModel } from '../../../interfaces/interface';
 @Component({
-    selector: 'app-search',
-    imports: [FormsModule, CommonModule],
-    templateUrl: './search.component.html',
-    styleUrl: './search.component.css'
+  selector: 'app-search',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './search.component.html',
+  styleUrl: './search.component.css',
 })
 export class SearchComponent implements OnInit {
   constructor(private apiservice: ApiService, private router: Router) {}

@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { GoogleLoginResponse } from '../../../interfaces/userInterface';
+import { GoogleLoginResponse } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-google-signin',

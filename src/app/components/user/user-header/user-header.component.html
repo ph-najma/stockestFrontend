@@ -7,9 +7,9 @@
           <div
             class="h-9 w-9 rounded-lg bg-green-500 flex items-center justify-center"
           >
-            <span class="text-black font-bold text-xl">D</span>
+            <span class="text-black font-bold text-xl">S</span>
           </div>
-          <span class="text-green-400 font-semibold text-lg">Dashboard</span>
+          <span class="text-green-400 font-semibold text-lg">Stockest</span>
         </div>
 
         <!-- Desktop Navigation -->
@@ -18,8 +18,25 @@
             <input
               type="text"
               placeholder="Quick search..."
+              [(ngModel)]="searchQuery"
+              (input)="onSearch()"
               class="w-64 pl-10 pr-4 py-2 bg-black border border-green-500/20 rounded-lg text-green-400 text-sm focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
             />
+          </div>
+          <!-- Suggestion List - Desktop -->
+          <div
+            *ngIf="suggestions.length > 0"
+            class="absolute z-50 w-full bg-black border border-green-500/20 rounded-lg shadow-lg mt-1"
+          >
+            <ul class="text-green-400 text-sm">
+              <li
+                *ngFor="let suggestion of suggestions"
+                class="px-4 py-2 hover:bg-green-700 hover:text-green-100 cursor-pointer"
+                (click)="selectSuggestion(suggestion)"
+              >
+                {{ suggestion.symbol }}
+              </li>
+            </ul>
           </div>
 
           <!-- Navigation Links -->
@@ -132,12 +149,30 @@
     >
       <div class="px-4 py-3 space-y-3">
         <!-- Mobile Search -->
-        <div class="relative mb-4">
+        <div class="relative hidden sm:block">
           <input
             type="text"
             placeholder="Quick search..."
-            class="w-full pl-10 pr-4 py-2 bg-black border border-green-500/20 rounded-lg text-green-400 text-sm"
+            class="w-64 pl-10 pr-4 py-2 bg-black border border-green-500/20 rounded-lg text-green-400 text-sm focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()"
           />
+
+          <!-- Suggestion Dropdown Here -->
+          <div
+            *ngIf="suggestions.length > 0"
+            class="absolute z-50 w-full bg-black border border-green-500/20 rounded-lg shadow-lg mt-1"
+          >
+            <ul class="text-green-400 text-sm">
+              <li
+                *ngFor="let suggestion of suggestions"
+                class="px-4 py-2 hover:bg-green-700 hover:text-green-100 cursor-pointer"
+                (click)="selectSuggestion(suggestion)"
+              >
+                {{ suggestion.symbol }}
+              </li>
+            </ul>
+          </div>
         </div>
 
         <!-- Mobile Navigation Links -->

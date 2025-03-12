@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdminApiService } from '../../../services/admin-api.service';
-import { IResponseModel } from '../../../interfaces/userInterface';
+import { IResponseModel } from '../../../interfaces/interface';
 import { Subscription } from 'rxjs';
 import { ListingTableComponent } from '../../reusable/listing-table/listing-table.component';
 import { TransStatsComponent } from '../trans-stats/trans-stats.component';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from '../header/header.component';
-import { ITransaction } from '../../../interfaces/userInterface';
+import { ITransaction } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-transactions',

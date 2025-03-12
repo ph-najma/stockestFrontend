@@ -7,7 +7,7 @@ import { AlertService } from '../../../services/alert.service';
 import { Subscription } from 'rxjs';
 import { SessionFormComponent } from '../../reusable/session-form/session-form.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { ISessionFormData } from '../../../interfaces/userInterface';
+import { ISessionFormData } from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-edit-session',

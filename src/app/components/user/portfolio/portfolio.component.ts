@@ -6,7 +6,7 @@ import {
   IPortfolioItem,
   IPortfolioResponseModel,
   IPortfolioSummaryUpdate,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';

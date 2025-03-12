@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserHeaderComponent } from '../user-header/user-header.component';
 import { ApiService } from '../../../services/api.service';
 import { Subscription } from 'rxjs';
-import {
-  ITransaction,
-  IResponseModel,
-} from '../../../interfaces/userInterface';
+import { ITransaction, IResponseModel } from '../../../interfaces/interface';
 @Component({
   selector: 'app-transaction',
   imports: [UserHeaderComponent, CommonModule],

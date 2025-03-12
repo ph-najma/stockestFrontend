@@ -8,6 +8,15 @@ import {
   EventEmitter,
 } from '@angular/core';
 
+interface TableColumn<T> {
+  key: keyof T;
+  header: string;
+  width?: string;
+  custom?: (row: T) => { text: string; class?: string } | undefined;
+  buttons?: { label: string; cssClass: string; action: (row: T) => void }[];
+  sortable?: boolean;
+}
+
 @Component({
   selector: 'app-listing-table',
   imports: [CommonModule],
@@ -21,10 +30,7 @@ export class ListingTableComponent implements OnInit {
   @Input() currentPage: number = 1;
   @Input() customTemplates: { [key: string]: TemplateRef<any> } = {};
   @Output() pageChange = new EventEmitter<number>();
-  ngOnInit() {
-    console.log('Columns:', this.columns);
-    console.log('Data:', this.data);
-  }
+  ngOnInit() {}
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.pageChange.emit(page);

@@ -7,9 +7,10 @@ import {
   IResponseModel,
   ILoginFormData,
   ILoginResponse,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 import { Subscription } from 'rxjs';
 import { RightSideLoginComponent } from '../../reusable/right-side-login/right-side-login.component';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-login-admin',
   imports: [ReactiveFormsModule, LoginFormComponent, RightSideLoginComponent],
@@ -20,8 +21,7 @@ export class LoginAdminComponent implements OnDestroy {
   loading: boolean = false;
   error: string | null = null;
   successMessage: string | null = null;
-  imageUrl: string =
-    'https://stockest-user-profile.s3.ap-south-1.amazonaws.com/logos/logo.png';
+  imageUrl: string = environment.logo_URL;
   private subscription = new Subscription();
 
   constructor(private apiService: AdminApiService, private router: Router) {}

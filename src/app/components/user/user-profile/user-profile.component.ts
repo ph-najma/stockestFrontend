@@ -3,13 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
-import {
-  IRewards,
-  IResponseModel,
-  IUser,
-} from '../../../interfaces/userInterface';
+import { IRewards, IResponseModel, IUser } from '../../../interfaces/interface';
 import { UserHeaderComponent } from '../user-header/user-header.component';
-import { AlertService } from '../../../services/alert.service';
 import { AlertModalComponent } from '../../reusable/alert-modal/alert-modal.component';
 import { S3Service } from '../../../services/s3.service';
 @Component({
@@ -25,19 +20,16 @@ import { S3Service } from '../../../services/s3.service';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   profileImageUrl: string = '';
-  private bucketName = 'stockest-user-profile'; // Replace with actual bucket name
-  private region = 'ap-south-1';
   user: {
     id: string;
     name: string;
-    fullName: string;
     profilePhoto: string;
     refferalCode?: string;
   } = {
     id: '',
     name: 'NIZAM',
-    fullName: 'NIZAM P H',
     profilePhoto: '',
+    refferalCode: '',
   };
 
   rewards: IRewards = {};
@@ -48,7 +40,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    private alertService: AlertService,
+
     private s3Service: S3Service
   ) {}
   ngOnInit(): void {
@@ -60,15 +52,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         console.log(response);
         this.user.id = response.data._id;
         this.user.name = response.data.name;
-        this.user.fullName = response.data.name || 'unknown user';
+
         this.user.profilePhoto = response.data.profilePhoto;
         this.user.refferalCode = response.data.referralCode;
-
         this.isEligibleForLoyaltyRewards =
           response.data.isEligibleForLoyaltyRewards;
         this.isEligibleForReferralBonus =
           response.data.isEligibleForReferralBonus;
-
         if (response.data.profilePhoto) {
           this.profileImageUrl = response.data.profilePhoto;
         }
@@ -90,8 +80,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
-    const encodedFileName = encodeURIComponent(file.name);
-    console.log('Uploading file:', file.name, 'Type:', file.type);
 
     this.s3Service.getSignedUrl(file.name, file.type).subscribe({
       next: ({ signedUrl, fileUrl }) => {

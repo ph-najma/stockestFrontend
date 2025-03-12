@@ -8,7 +8,7 @@ import {
   IOrder,
   IOrderResponseData,
   IResponseModel,
-} from '../../../interfaces/userInterface';
+} from '../../../interfaces/interface';
 
 @Component({
   selector: 'app-order-listing',
